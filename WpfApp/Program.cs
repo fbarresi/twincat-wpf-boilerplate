@@ -12,7 +12,7 @@ using WpfApp.Logic;
 
 namespace WpfApp
 {
-    class Program
+	static class Program
     {
 		[STAThread]
 		public static void Main(string[] args)
@@ -79,8 +79,22 @@ namespace WpfApp
 			var application = new App() { ShutdownMode = ShutdownMode.OnLastWindowClose };
 
 			application.InitializeComponent();
+			application.ReplaceViewModelLocator(viewModelLocator);
 
 			return application;
 		}
 	}
+    
+    public static class ApplicationExtensions
+    {
+	    public static void ReplaceViewModelLocator(this Application application, IViewModelFactory viewModelLocator, string locatorKey = "Locator")
+	    {
+		    if (application.Resources.Contains(locatorKey))
+		    {
+			    application.Resources.Remove(locatorKey);
+		    }
+
+		    application.Resources.Add(locatorKey, viewModelLocator);
+	    }
+    }
 }
