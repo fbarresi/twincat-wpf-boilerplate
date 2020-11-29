@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp.Gui", "WpfApp.Gui\WpfApp.Gui.csproj", "{A2C6529F-CD3C-443A-BF38-956DE00DA91F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp", "WpfApp\WpfApp.csproj", "{3E2B7FF6-7911-47C4-86D0-A296887EEDC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp.Interfaces", "WpfApp.Interfaces\WpfApp.Interfaces.csproj", "{B526E203-90CE-4351-82B0-A75D5481504A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2C6529F-CD3C-443A-BF38-956DE00DA91F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C6529F-CD3C-443A-BF38-956DE00DA91F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C6529F-CD3C-443A-BF38-956DE00DA91F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2C6529F-CD3C-443A-BF38-956DE00DA91F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E2B7FF6-7911-47C4-86D0-A296887EEDC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E2B7FF6-7911-47C4-86D0-A296887EEDC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E2B7FF6-7911-47C4-86D0-A296887EEDC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E2B7FF6-7911-47C4-86D0-A296887EEDC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B526E203-90CE-4351-82B0-A75D5481504A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B526E203-90CE-4351-82B0-A75D5481504A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B526E203-90CE-4351-82B0-A75D5481504A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B526E203-90CE-4351-82B0-A75D5481504A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

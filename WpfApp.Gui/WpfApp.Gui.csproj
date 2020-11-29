@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Ninject" Version="3.3.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WpfApp.Interfaces\WpfApp.Interfaces.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ApplicationDefinition Remove="App.xaml" />
+      <Page Include="App.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+
+</Project>
