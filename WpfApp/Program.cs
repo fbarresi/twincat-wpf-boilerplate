@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Windows;
-using Microsoft.VisualBasic;
 using Ninject;
+using Serilog;
 using WpfApp.Gui;
 using WpfApp.Gui.ViewModels;
 using WpfApp.Interfaces;
+using WpfApp.Interfaces.Commons;
+using WpfApp.Logic;
 
 namespace WpfApp
 {
@@ -18,14 +19,14 @@ namespace WpfApp
 		{
 			using (IKernel kernel = new StandardKernel())
 			{
+				var logger = CreateLogger();
 				try
 				{
-					CreateLogger();
-					// LoggerFactory.GetLogger().Info(string.Join("", Enumerable.Repeat("#",80)));
-					// LoggerFactory.GetLogger().Info("Application starts!");
-					// LoggerFactory.GetLogger().Info("Loading kernel modules... ");
+					logger.Information(string.Join("", Enumerable.Repeat("#",80)));
+					logger.Information("Application starts!");
+					logger.Information("Loading kernel modules... ");
 					LoadModules(kernel);
-					// LoggerFactory.GetLogger().Info("Kernel modules loaded");
+					logger.Information("Kernel modules loaded");
 
 					var viewModelFactory = kernel.Get<ViewModelLocator>();
 					var application = CreateApplication(viewModelFactory);
@@ -35,33 +36,42 @@ namespace WpfApp
 					var mainWindow = kernel.Get<MainWindow>();
 					mainWindow.DataContext = mainWindowViewModel;
 
-					// LoggerFactory.GetLogger().Info(string.Join("", Enumerable.Repeat("#",80)));
+					logger.Information(string.Join("", Enumerable.Repeat("#",80)));
 
 					application.Run(mainWindow);
 					application.Shutdown();
-					// LoggerFactory.GetLogger().Info("Application ended...");
-					// LoggerFactory.GetLogger().Info("\n\n\n\n");
+					logger.Information("Application ended...");
+					logger.Information("\n\n\n\n");
 				}
 				catch (Exception e)
 				{
-					// LoggerFactory.GetLogger().Error("Unhandled exception", e);
+					logger.Error("Unhandled exception: {@Error}", e);
 
                     throw e;
 				}
 			}
 		}
 
-		private static void CreateLogger()
+		private static ILogger CreateLogger()
 		{
-			// log4net.Config.XmlConfigurator.Configure(new FileInfo("log.config"));
-			// LogManager.CreateRepository(Constants.LoggingRepositoryName);
-			// LogManager.CreateRepository(Constants.LoggingObservationRepositoryName);
+			Log.Logger = new LoggerConfiguration()
+				.MinimumLevel.Debug()
+				.Enrich.FromLogContext()
+				.WriteTo.Console()
+				.WriteTo.File( Path.Combine(Directory.Exists(Constants.DefaultLoggerDirectory) ? Constants.DefaultLoggerDirectory : "", "WpfApp.log"), 
+					rollOnFileSizeLimit: true, 
+					retainedFileCountLimit: 10, 
+					fileSizeLimitBytes: 102400)
+				.CreateLogger();
+			
+			return Log.Logger;
 		}
 
 		private static void LoadModules(IKernel kernel)
 		{
 			kernel.Load<GuiModuleCatalog>();
-			// kernel.Load<LogicModuleCatalog>();
+			kernel.Load<LogicModuleCatalog>();
+			kernel.Bind<ILogger>().ToConstant(Log.Logger);
 		}
 
 		private static Application CreateApplication(IViewModelFactory viewModelLocator)
@@ -73,5 +83,4 @@ namespace WpfApp
 			return application;
 		}
 	}
-
 }

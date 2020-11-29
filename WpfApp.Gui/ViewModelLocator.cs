@@ -2,7 +2,8 @@
 using Ninject.Parameters;
 using WpfApp.Gui.ViewModels;
 using WpfApp.Interfaces;
-using IInitializable = WpfApp.Interfaces.IInitializable;
+using WpfApp.Interfaces.Commons;
+using IInitializable = WpfApp.Interfaces.Commons.IInitializable;
 
 namespace WpfApp.Gui
 {

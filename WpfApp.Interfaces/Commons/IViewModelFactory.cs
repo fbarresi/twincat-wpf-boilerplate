@@ -1,4 +1,4 @@
-﻿namespace WpfApp.Interfaces
+﻿namespace WpfApp.Interfaces.Commons
 {
     public interface IViewModelFactory
     {

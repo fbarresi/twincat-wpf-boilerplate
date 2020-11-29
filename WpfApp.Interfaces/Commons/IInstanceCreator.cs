@@ -1,6 +1,6 @@
 ﻿using Ninject.Parameters;
 
-namespace WpfApp.Interfaces
+namespace WpfApp.Interfaces.Commons
 {
     public interface IInstanceCreator
     {
