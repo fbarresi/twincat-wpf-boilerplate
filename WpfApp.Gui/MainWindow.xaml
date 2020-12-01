@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Gui"
         mc:Ignorable="d"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Label Content="{Binding Test}"/>
     </Grid>
 </Window>

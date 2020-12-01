@@ -1,6 +1,9 @@
 ﻿﻿using System;
-using Ninject.Modules;
+ using Ninject;
+ using Ninject.Modules;
  using WpfApp.Interfaces.Services;
+ using WpfApp.Interfaces.Settings;
+ using WpfApp.Logic.Hardware;
  using WpfApp.Logic.Services;
 
  namespace WpfApp.Logic
@@ -10,6 +13,16 @@ using Ninject.Modules;
         public override void Load()
         {
             Bind<ISettingsProvider>().To<SettingsService>().InSingletonScope();
+
+            Bind<ApplicationSetting>().ToMethod(context =>
+                context.Kernel.Get<ISettingsProvider>().SettingRoot.ApplicationSetting);
+            
+            Bind<HardwareSetting>().ToMethod(context =>
+                context.Kernel.Get<ISettingsProvider>().SettingRoot.HardwareSetting);
+
+            Bind<IPlcProvider>().To<PlcProvider>().InSingletonScope();
+
+            Bind<BeckhoffPlc>().ToSelf();
         }
     }
 }

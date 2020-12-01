@@ -11,6 +11,7 @@ namespace WpfApp.Logic.Services
         public SettingRoot SettingRoot { get; set; }
         public void Initialize()
         {
+            //todo: add serialize and deserialize
             SettingRoot = new SettingRoot();
         }
     }

@@ -5,7 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Beckhoff.TwinCAT.Ads.Reactive" Version="5.0.1-preview.12" />
       <PackageReference Include="Ninject" Version="3.3.4" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
