@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
+using ReactiveUI;
+using TwinCAT;
 using WpfApp.Interfaces.Commons;
 using WpfApp.Interfaces.Extensions;
 using WpfApp.Interfaces.Services;
@@ -12,17 +14,22 @@ namespace WpfApp.Gui.ViewModels
         private readonly IViewModelFactory viewModelFactory;
         private readonly IPlcProvider provider;
         private readonly ApplicationSetting setting;
-        private string _test = "woow!";
+        private string _connectionState = "woow!";
+        private string _test;
+        private ObservableAsPropertyHelper<ConnectionState> helper;
 
         public string Test
         {
             get => _test;
-            set{
-                if (value == _test) return;
+            set
+            {
+                if(value == _test) return;
                 _test = value;
-                raisePropertyChanged();
+                raisePropertyChanged();    
             }
         }
+
+        public ConnectionState ConnectionState => helper?.Value ?? ConnectionState.None;
 
         public MainWindowViewModel(IViewModelFactory viewModelFactory, IPlcProvider provider, ApplicationSetting setting)
         {
@@ -34,10 +41,14 @@ namespace WpfApp.Gui.ViewModels
         {
             Observable.Interval(TimeSpan.FromSeconds(1))
                 .ObserveOnDispatcher()
-                .Do(i => Test += i)
+                .Do(i => Test = "Test "+i)
                 .Subscribe()
                 .AddDisposableTo(Disposables);
-            
+
+            var plc = provider.GetHardware(setting.PlcName);
+
+            helper = plc.ConnectionState.ToProperty(this, vm => vm.ConnectionState, ConnectionState.None);
+
             Logger.Debug("Main view model initialized!");
         }
     }

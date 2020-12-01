@@ -6,6 +6,7 @@ using Ninject;
 using Serilog;
 using WpfApp.Gui;
 using WpfApp.Gui.ViewModels;
+using WpfApp.Gui.Views;
 using WpfApp.Interfaces;
 using WpfApp.Interfaces.Commons;
 using WpfApp.Logic;

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace WpfApp.Gui
+namespace WpfApp.Gui.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
