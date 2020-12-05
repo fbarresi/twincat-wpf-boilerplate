@@ -17,6 +17,7 @@ namespace WpfApp.Gui.ViewModels
         private string _connectionState = "woow!";
         private string _test;
         private ObservableAsPropertyHelper<ConnectionState> helper;
+        private PageViewModel _pageViewModel;
 
         public string Test
         {
@@ -50,6 +51,21 @@ namespace WpfApp.Gui.ViewModels
             helper = plc.ConnectionState.ToProperty(this, vm => vm.ConnectionState, ConnectionState.None);
 
             Logger.Debug("Main view model initialized!");
+
+            PageViewModel = viewModelFactory.CreateViewModel<PageViewModel>();
+            PageViewModel.AddDisposableTo(Disposables);
+            
+        }
+
+        public PageViewModel PageViewModel
+        {
+            get => _pageViewModel;
+            set
+            {
+                if (value == _pageViewModel) return;
+                _pageViewModel = value;
+                raisePropertyChanged();
+            }
         }
     }
 }

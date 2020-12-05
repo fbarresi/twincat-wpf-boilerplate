@@ -133,6 +133,7 @@ namespace WpfApp.Logic.Hardware
         public IObservable<T> CreateNotification<T>(string variable)
         {
             return connectionStateSubject
+                    .DistinctUntilChanged()
                     .Where(connectionStates => connectionStates == TwinCAT.ConnectionState.Connected)
                     .Select(_ => ObserveVariable<T>(variable))
                     .Switch()
@@ -142,7 +143,7 @@ namespace WpfApp.Logic.Hardware
 
         private IObservable<T> ObserveVariable<T>(string variable)
         {
-            var symbol = TryGetSymbol(variable);
+            var symbol = Client.ReadSymbol(variable);
 
             Logger?.Debug(
                 $"Creating beckhoff notification for '{variable}' of type {typeof(T)} (internally {symbol.DataType.Name})");

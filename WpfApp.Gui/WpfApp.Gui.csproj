@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
       <PackageReference Include="Ninject" Version="3.3.4" />
       <PackageReference Include="ReactiveUI" Version="12.1.5" />
       <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />

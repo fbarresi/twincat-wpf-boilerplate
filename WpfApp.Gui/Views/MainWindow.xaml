@@ -4,15 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Gui"
+        xmlns:views="clr-namespace:WpfApp.Gui.Views"
         mc:Ignorable="d"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Content="{Binding ConnectionState}"/>
         <Label Content="{Binding Test}" Grid.Row="1"/>
+        <views:PageView DataContext="{Binding PageViewModel}" Grid.Column="1"/>
     </Grid>
 </Window>
