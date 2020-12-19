@@ -2,6 +2,9 @@
 {
     public class Constants
     {
-        public static string DefaultLoggerDirectory => "";
+        public static string ApplicationName => "WpfApp";
+        public static string LoggerDirectory => "Logs";
+        public static string DatabaseDirectory => "LocalDatabase";
+        public static string SettingsDirectory => "Settings";
     }
 }

@@ -1,6 +1,7 @@
 ﻿﻿using System;
  using Ninject;
  using Ninject.Modules;
+ using Serilog;
  using WpfApp.Interfaces.Services;
  using WpfApp.Interfaces.Settings;
  using WpfApp.Logic.Hardware;
@@ -13,7 +14,7 @@
         public override void Load()
         {
             Bind<ISettingsProvider>().To<SettingsService>().InSingletonScope();
-
+            Bind<IDirectoryService>().To<DirectoryService>().InSingletonScope();
             Bind<ApplicationSetting>().ToMethod(context =>
                 context.Kernel.Get<ISettingsProvider>().SettingRoot.ApplicationSetting);
             
@@ -23,6 +24,7 @@
             Bind<IPlcProvider>().To<PlcProvider>().InSingletonScope();
 
             Bind<BeckhoffPlc>().ToSelf();
+            
         }
     }
 }

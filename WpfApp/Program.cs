@@ -10,6 +10,7 @@ using WpfApp.Gui.Views;
 using WpfApp.Interfaces;
 using WpfApp.Interfaces.Commons;
 using WpfApp.Logic;
+using WpfApp.Logic.Services;
 
 namespace WpfApp
 {
@@ -20,7 +21,8 @@ namespace WpfApp
 		{
 			using (IKernel kernel = new StandardKernel())
 			{
-				var logger = CreateLogger();
+				var directoryService = new DirectoryService();
+				var logger = CreateLogger(directoryService);
 				try
 				{
 					logger.Information(string.Join("", Enumerable.Repeat("#",80)));
@@ -53,13 +55,13 @@ namespace WpfApp
 			}
 		}
 
-		private static ILogger CreateLogger()
+		private static ILogger CreateLogger(DirectoryService directoryService)
 		{
 			Log.Logger = new LoggerConfiguration()
 				.MinimumLevel.Debug()
 				.Enrich.FromLogContext()
 				.WriteTo.Console()
-				.WriteTo.File( Path.Combine(Directory.Exists(Constants.DefaultLoggerDirectory) ? Constants.DefaultLoggerDirectory : "", "WpfApp.log"), 
+				.WriteTo.File( Path.Combine(directoryService.LogsFolder, "WpfApp.log"), 
 					rollOnFileSizeLimit: true, 
 					retainedFileCountLimit: 10, 
 					fileSizeLimitBytes: 102400)
@@ -70,9 +72,9 @@ namespace WpfApp
 
 		private static void LoadModules(IKernel kernel)
 		{
+			kernel.Bind<ILogger>().ToConstant(Log.Logger);
 			kernel.Load<GuiModuleCatalog>();
 			kernel.Load<LogicModuleCatalog>();
-			kernel.Bind<ILogger>().ToConstant(Log.Logger);
 		}
 
 		private static Application CreateApplication(IViewModelFactory viewModelLocator)

@@ -14,7 +14,6 @@ namespace WpfApp.Gui.ViewModels
         private readonly IViewModelFactory viewModelFactory;
         private readonly IPlcProvider provider;
         private readonly ApplicationSetting setting;
-        private string _connectionState = "woow!";
         private string _test;
         private ObservableAsPropertyHelper<ConnectionState> helper;
         private PageViewModel _pageViewModel;
