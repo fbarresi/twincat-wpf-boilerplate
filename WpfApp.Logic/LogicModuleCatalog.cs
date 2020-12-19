@@ -15,6 +15,8 @@
         {
             Bind<ISettingsProvider>().To<SettingsService>().InSingletonScope();
             Bind<IDirectoryService>().To<DirectoryService>().InSingletonScope();
+            Bind<IDatabaseService>().To<DatabaseService>().InSingletonScope();
+            
             Bind<ApplicationSetting>().ToMethod(context =>
                 context.Kernel.Get<ISettingsProvider>().SettingRoot.ApplicationSetting);
             
@@ -22,9 +24,7 @@
                 context.Kernel.Get<ISettingsProvider>().SettingRoot.HardwareSetting);
 
             Bind<IPlcProvider>().To<PlcProvider>().InSingletonScope();
-
             Bind<BeckhoffPlc>().ToSelf();
-            
         }
     }
 }
