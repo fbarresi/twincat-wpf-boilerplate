@@ -41,12 +41,20 @@ namespace WpfApp.Logic.Services
         {
             foreach (var plcSetting in setting.PlcSettings)
             {
-                var beckhoffPlc = instanceCreator.CreateInstance<BeckhoffPlc>(new []{new ConstructorArgument("settings",plcSetting), });
-                if(beckhoffPlc.Initialize())
-                    plcs.Add(plcSetting.Name, beckhoffPlc);
+                if (!plcSetting.IsMock)
+                {
+                    var plc = instanceCreator.CreateInstance<BeckhoffPlc>(new[]
+                        {new ConstructorArgument("settings", plcSetting)});
+                    if (plc.Initialize())
+                        plcs.Add(plcSetting.Name, plc);
+                    else
+                    {
+                        Logger?.LogWarning("Unable to initialize Beckhoff: '{plcSetting}'", plcSetting);
+                    }
+                }
                 else
                 {
-                    Logger?.LogWarning("Unable to initialize Beckhoff: '{plcSetting}'", plcSetting);
+                    plcs.Add(plcSetting.Name, new MockPlc());
                 }
             }
         }

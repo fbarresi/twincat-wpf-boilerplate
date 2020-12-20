@@ -5,5 +5,6 @@
         public string Name { get; set; } = "Plc1";
         public string AmsNetId { get; set; } = "";
         public int Port { get; set; } = 852;
+        public bool IsMock { get; set; } = false;
     }
 }
