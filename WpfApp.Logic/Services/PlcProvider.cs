@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Ninject;
 using Ninject.Parameters;
@@ -35,6 +36,11 @@ namespace WpfApp.Logic.Services
             }
 
             return null;
+        }
+
+        public IPlc GetHardware()
+        {
+            return plcs.Values.FirstOrDefault();
         }
 
         public void Initialize()
