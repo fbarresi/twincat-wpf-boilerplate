@@ -7,11 +7,12 @@
 
     <ItemGroup>
       <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-      <PackageReference Include="Ninject" Version="3.3.4" />
       <PackageReference Include="ReactiveUI" Version="12.1.5" />
       <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
-      <PackageReference Include="Serilog" Version="2.10.0" />
-      <PackageReference Include="System.Reactive" Version="5.0.0" />
+        <PackageReference Include="MahApps.Metro" Version="2.4.3" />
+        <PackageReference Include="MaterialDesignExtensions" Version="3.2.0" />
+        <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.5" />
+        <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,6 +24,16 @@
       <Page Include="App.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Behaviours" />
+      <Folder Include="Resources" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\icon.png" />
+      <Resource Include="Resources\icon.png" />
     </ItemGroup>
 
 </Project>

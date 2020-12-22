@@ -9,7 +9,7 @@ namespace WpfApp.Gui.Converters
     public class BoolToBrushConverter : IValueConverter
     {
         public Brush IfTrue { get; set; } = Brushes.Green;
-        public Brush IfFalse { get; set; } = Brushes.OrangeRed;
+        public Brush IfFalse { get; set; } = Brushes.Red;
         
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

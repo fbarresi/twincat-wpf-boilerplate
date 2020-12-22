@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Windows;
 using Ninject;
 using Serilog;
@@ -9,6 +10,7 @@ using WpfApp.Gui.ViewModels;
 using WpfApp.Gui.Views;
 using WpfApp.Interfaces;
 using WpfApp.Interfaces.Commons;
+using WpfApp.Interfaces.Extensions;
 using WpfApp.Logic;
 using WpfApp.Logic.Services;
 
@@ -19,6 +21,7 @@ namespace WpfApp
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			using (var disposables = new CompositeDisposable())
 			using (IKernel kernel = new StandardKernel())
 			{
 				var directoryService = new DirectoryService();
@@ -35,6 +38,7 @@ namespace WpfApp
 					var application = CreateApplication(viewModelFactory);
 
 					var mainWindowViewModel = viewModelFactory.CreateViewModel<MainWindowViewModel>();
+					mainWindowViewModel.AddDisposableTo(disposables);
 
 					var mainWindow = kernel.Get<MainWindow>();
 					mainWindow.DataContext = mainWindowViewModel;

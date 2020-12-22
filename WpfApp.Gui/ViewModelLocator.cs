@@ -1,8 +1,10 @@
-﻿using Ninject;
+﻿using System;
+using Ninject;
 using Ninject.Parameters;
 using WpfApp.Gui.ViewModels;
 using WpfApp.Interfaces;
 using WpfApp.Interfaces.Commons;
+using WpfApp.Interfaces.Ui;
 using IInitializable = WpfApp.Interfaces.Commons.IInitializable;
 
 namespace WpfApp.Gui
@@ -61,6 +63,13 @@ namespace WpfApp.Gui
         {
             var vm = Kernel.Get<TVm>();
             InitializeInitialziable(vm as IInitializable);
+            return vm;
+        }
+        
+        public IViewModel CreateViewModel(Type viewModelType)
+        {
+            var vm = Kernel.Get(viewModelType) as IViewModel;
+            InitializeInitialziable(vm);
             return vm;
         }
 

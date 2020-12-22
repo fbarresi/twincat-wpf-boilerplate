@@ -1,24 +1,47 @@
-﻿<Window x:Class="WpfApp.Gui.Views.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp.Gui"
-        xmlns:views="clr-namespace:WpfApp.Gui.Views"
-        mc:Ignorable="d"
-        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
-        Title="MainWindow" Height="450" Width="800">
+﻿<mah:MetroWindow x:Class="WpfApp.Gui.Views.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:WpfApp.Gui"
+                 xmlns:views="clr-namespace:WpfApp.Gui.Views"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
+                 mc:Ignorable="d"
+                 WindowStartupLocation="CenterScreen"
+                 AllowDrop="True"
+                 DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
+                 Title="Twincat WPF Boilerplate" Height="450" Width="800">
+    
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Image Source="../Resources/icon.png"></Image>
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
+    
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Content="{Binding ConnectionState}"/>
-        <Label Content="{Binding Test}" Grid.Row="1"/>
-        <views:PageView DataContext="{Binding PageViewModel}" Grid.Column="1"/>
+        <Label Content="{Binding Test}" Grid.Row="2"/>
+ 
+        <ContentPresenter Grid.Row="1" Grid.Column="1"
+                          Content="{Binding ActiveViewModel}"
+                          Margin="4">
+            <ContentPresenter.Resources>
+                <DataTemplate DataType="{x:Type viewModels:PageViewModel}">
+                    <views:PageView />
+                </DataTemplate>
+            </ContentPresenter.Resources>
+        </ContentPresenter>
+        
     </Grid>
-</Window>
+</mah:MetroWindow>

@@ -19,7 +19,7 @@ namespace WpfApp.Gui.ViewModels
         }
         public override void Init()
         {
-            var plc = provider.GetHardware(setting.PlcName);
+            var plc = provider.GetHardware();
 
             helper = plc.CreateNotification<bool>(setting.ToggleSignalName)
                         .ToProperty(this, vm => vm.Toggle, true);

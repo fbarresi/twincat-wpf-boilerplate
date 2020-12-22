@@ -1,4 +1,7 @@
-﻿namespace WpfApp.Interfaces.Commons
+﻿using System;
+using WpfApp.Interfaces.Ui;
+
+namespace WpfApp.Interfaces.Commons
 {
     public interface IViewModelFactory
     {
@@ -7,5 +10,6 @@
         TVm CreateViewModel<T, TVm>(T model);
 
         TVm CreateViewModel<TVm>();
+        IViewModel CreateViewModel(Type viewModelType);
     }
 }

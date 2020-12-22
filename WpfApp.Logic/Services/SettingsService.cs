@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Ninject;
 using Serilog;
@@ -23,6 +22,14 @@ namespace WpfApp.Logic.Services
         }
         
         public SettingRoot SettingRoot { get; set; }
+        public void SaveSettings()
+        {
+            Logger?.Debug("Saving settings...");
+            File.WriteAllText(Path.Combine(directoryService.SettingsFolder, "settings.json"),
+                JsonConvert.SerializeObject(SettingRoot, Formatting.Indented));
+            Logger?.Debug("Settings saved!");
+        }
+
         public void Initialize()
         {
             //serialize default settings
@@ -60,8 +67,7 @@ namespace WpfApp.Logic.Services
         public void Dispose()
         {
             Logger?.Information("Saving application settings on dispose");
-            File.WriteAllText(Path.Combine(directoryService.SettingsFolder, "settings.json"),
-                JsonConvert.SerializeObject(SettingRoot, Formatting.Indented));
+            SaveSettings();
 
         }
     }

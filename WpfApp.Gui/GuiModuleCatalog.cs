@@ -1,4 +1,6 @@
 ﻿using Ninject.Modules;
+using WpfApp.Gui.Services;
+using WpfApp.Interfaces.Ui;
 
 namespace WpfApp.Gui
 {
@@ -6,6 +8,7 @@ namespace WpfApp.Gui
     {
         public override void Load()
         {
+            Bind<IPresentationService>().To<PresentationService>().InSingletonScope();
         }
     }
 }

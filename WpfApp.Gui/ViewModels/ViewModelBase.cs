@@ -6,10 +6,11 @@ using DynamicData.Annotations;
 using ReactiveUI;
 using Serilog;
 using WpfApp.Interfaces.Commons;
+using WpfApp.Interfaces.Ui;
 
 namespace WpfApp.Gui.ViewModels
 {
-    public abstract class ViewModelBase : ReactiveObject, IDisposable, IInitializable
+    public abstract class ViewModelBase : ReactiveObject, IInitializable, IViewModel
     {
         protected CompositeDisposable Disposables = new CompositeDisposable();
         private bool disposed;
@@ -45,6 +46,7 @@ namespace WpfApp.Gui.ViewModels
 
             Disposables?.Dispose();
             Disposables = null;
+            Logger?.Debug("Disposed {type}", this.GetType().Name);
 
             disposed = true;
         }

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using ReactiveUI;
 using TwinCAT;
 using WpfApp.Interfaces.Commons;
 using WpfApp.Interfaces.Extensions;
 using WpfApp.Interfaces.Services;
-using WpfApp.Interfaces.Settings;
+using WpfApp.Interfaces.Ui;
 
 namespace WpfApp.Gui.ViewModels
 {
@@ -13,11 +15,13 @@ namespace WpfApp.Gui.ViewModels
     {
         private readonly IViewModelFactory viewModelFactory;
         private readonly IPlcProvider provider;
-        private readonly ApplicationSetting setting;
+        private readonly IPresentationService presentationService;
         private string _test;
         private ObservableAsPropertyHelper<ConnectionState> helper;
-        private PageViewModel _pageViewModel;
+        private ViewModelBase _activeViewModel;
 
+        public ReactiveCommand<Type, Unit> SwitchToViewModel { get; set; }
+        
         public string Test
         {
             get => _test;
@@ -31,11 +35,11 @@ namespace WpfApp.Gui.ViewModels
 
         public ConnectionState ConnectionState => helper?.Value ?? ConnectionState.None;
 
-        public MainWindowViewModel(IViewModelFactory viewModelFactory, IPlcProvider provider, ApplicationSetting setting)
+        public MainWindowViewModel(IViewModelFactory viewModelFactory, IPlcProvider provider, IPresentationService presentationService)
         {
             this.viewModelFactory = viewModelFactory;
             this.provider = provider;
-            this.setting = setting;
+            this.presentationService = presentationService;
         }
         public override void Init()
         {
@@ -45,24 +49,48 @@ namespace WpfApp.Gui.ViewModels
                 .Subscribe()
                 .AddDisposableTo(Disposables);
 
-            var plc = provider.GetHardware(setting.PlcName);
+            var plc = provider.GetHardware();
 
             helper = plc.ConnectionState.ToProperty(this, vm => vm.ConnectionState, ConnectionState.None);
 
             Logger.Debug("Main view model initialized!");
 
-            PageViewModel = viewModelFactory.CreateViewModel<PageViewModel>();
-            PageViewModel.AddDisposableTo(Disposables);
+            SetInitialViewModel();
+
+            SetupContentPresenter();
             
+            SwitchToViewModel = ReactiveCommand.CreateFromTask<Type, Unit>(SwitchTo)
+                .AddDisposableTo(Disposables);
         }
 
-        public PageViewModel PageViewModel
+        private Task<Unit> SwitchTo(Type type)
         {
-            get => _pageViewModel;
-            set
+            presentationService.SwitchActiveViewModel(type);
+            return Task.FromResult(Unit.Default);
+        }
+
+        private void SetupContentPresenter()
+        {
+            presentationService.ActiveViewModel
+                .Where(vm => vm != null)
+                .ObserveOnDispatcher()
+                .Do(vm => ActiveViewModel = vm as ViewModelBase)
+                .Subscribe()
+                .AddDisposableTo(Disposables);
+        }
+
+        private void SetInitialViewModel()
+        {
+            presentationService.SwitchActiveViewModel<PageViewModel>();
+        }
+
+        public ViewModelBase ActiveViewModel
+        {
+            get => _activeViewModel;
+            set 
             {
-                if (value == _pageViewModel) return;
-                _pageViewModel = value;
+                if (value == _activeViewModel) return;
+                _activeViewModel = value;
                 raisePropertyChanged();
             }
         }
