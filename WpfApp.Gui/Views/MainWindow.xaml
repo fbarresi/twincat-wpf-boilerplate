@@ -44,8 +44,8 @@
                           Content="{Binding ActiveViewModel}"
                           Margin="4">
             <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type viewModels:PageViewModel}">
-                    <views:PageView />
+                <DataTemplate DataType="{x:Type viewModels:SignalViewModel}">
+                    <views:SignalView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:GraphViewModel}">
                     <views:GraphView />
@@ -59,7 +59,7 @@
                 <Button
                     Margin="8"
                     Command="{Binding SwitchToViewModel}" 
-                    CommandParameter="{x:Type viewModels:PageViewModel}">
+                    CommandParameter="{x:Type viewModels:SignalViewModel}">
                     Signal View
                 </Button>
                 

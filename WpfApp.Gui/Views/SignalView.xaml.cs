@@ -2,9 +2,9 @@
 
 namespace WpfApp.Gui.Views
 {
-    public partial class PageView : UserControl
+    public partial class SignalView : UserControl
     {
-        public PageView()
+        public SignalView()
         {
             InitializeComponent();
         }

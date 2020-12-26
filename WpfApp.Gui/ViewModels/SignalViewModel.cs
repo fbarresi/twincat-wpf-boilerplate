@@ -7,13 +7,13 @@ using WpfApp.Interfaces.Settings;
 
 namespace WpfApp.Gui.ViewModels
 {
-    public class PageViewModel : ViewModelBase
+    public class SignalViewModel : ViewModelBase
     {
         private readonly IPlcProvider provider;
         private readonly ApplicationSetting setting;
         private ObservableAsPropertyHelper<bool> helper;
 
-        public PageViewModel(IPlcProvider provider, ApplicationSetting setting)
+        public SignalViewModel(IPlcProvider provider, ApplicationSetting setting)
         {
             this.provider = provider;
             this.setting = setting;
@@ -32,9 +32,9 @@ namespace WpfApp.Gui.ViewModels
         public bool Toggle => helper.Value;
     }
 
-    internal class DesignPageViewModel : PageViewModel
+    internal class DesignSignalViewModel : SignalViewModel
     {
-        public DesignPageViewModel() : base(new PlcProviderMock(), new ApplicationSetting())
+        public DesignSignalViewModel() : base(new PlcProviderMock(), new ApplicationSetting())
         {
             Init();
         }

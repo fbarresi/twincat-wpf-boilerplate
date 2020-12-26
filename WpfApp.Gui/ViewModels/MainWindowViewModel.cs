@@ -81,7 +81,7 @@ namespace WpfApp.Gui.ViewModels
 
         private void SetInitialViewModel()
         {
-            presentationService.SwitchActiveViewModel<PageViewModel>();
+            presentationService.SwitchActiveViewModel<SignalViewModel>();
         }
 
         public ViewModelBase ActiveViewModel
