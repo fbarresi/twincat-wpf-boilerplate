@@ -7,9 +7,11 @@
                  xmlns:views="clr-namespace:WpfApp.Gui.Views"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
+                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                  mc:Ignorable="d"
                  WindowStartupLocation="CenterScreen"
                  AllowDrop="True"
+                 Icon="../Resources/icon.png"
                  DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
                  Title="Twincat WPF Boilerplate" Height="450" Width="800">
     
@@ -20,28 +22,55 @@
     </mah:MetroWindow.IconTemplate>
     
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="{Binding ConnectionState}"/>
-        <Label Content="{Binding Test}" Grid.Row="2"/>
- 
-        <ContentPresenter Grid.Row="1" Grid.Column="1"
+
+        <!-- Top Bar -->
+        <Grid Grid.Row="0" Margin="8">
+            <materialDesign:Card
+                Width="200"
+                HorizontalAlignment="Left"
+                UniformCornerRadius="6">
+                <Label Content="{Binding ConnectionState}" ContentStringFormat="PLC State: {0}"/>
+
+            </materialDesign:Card>
+        </Grid>
+        
+        <!-- content -->
+        <ContentPresenter Grid.Row="1"
                           Content="{Binding ActiveViewModel}"
                           Margin="4">
             <ContentPresenter.Resources>
                 <DataTemplate DataType="{x:Type viewModels:PageViewModel}">
                     <views:PageView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:GraphViewModel}">
+                    <views:GraphView />
+                </DataTemplate>
             </ContentPresenter.Resources>
         </ContentPresenter>
+        
+        <!-- Bottom bar -->
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Margin="8"
+                    Command="{Binding SwitchToViewModel}" 
+                    CommandParameter="{x:Type viewModels:PageViewModel}">
+                    Signal View
+                </Button>
+                
+                <Button
+                    Margin="8"
+                    Command="{Binding SwitchToViewModel}" 
+                    CommandParameter="{x:Type viewModels:GraphViewModel}">
+                    Graph View
+                </Button>
+            </StackPanel>
+        </Grid>
         
     </Grid>
 </mah:MetroWindow>

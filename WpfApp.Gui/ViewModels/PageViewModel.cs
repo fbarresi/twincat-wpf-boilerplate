@@ -1,6 +1,7 @@
 ﻿using System.Reactive.Linq;
 using ReactiveUI;
 using TwinCAT;
+using WpfApp.Gui.Design;
 using WpfApp.Interfaces.Services;
 using WpfApp.Interfaces.Settings;
 
@@ -16,6 +17,7 @@ namespace WpfApp.Gui.ViewModels
         {
             this.provider = provider;
             this.setting = setting;
+            Title = "Test Page";
         }
         public override void Init()
         {
@@ -28,5 +30,13 @@ namespace WpfApp.Gui.ViewModels
         }
 
         public bool Toggle => helper.Value;
+    }
+
+    internal class DesignPageViewModel : PageViewModel
+    {
+        public DesignPageViewModel() : base(new PlcProviderMock(), new ApplicationSetting())
+        {
+            Init();
+        }
     }
 }

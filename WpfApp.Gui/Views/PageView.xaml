@@ -6,13 +6,22 @@
              xmlns:local="clr-namespace:WpfApp.Gui.Views"
              xmlns:converters="clr-namespace:WpfApp.Gui.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
              mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:DesignPageViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
              >
     <UserControl.Resources>
         <converters:BoolToBrushConverter x:Key="boolToColour" IfTrue="Green" IfFalse="Red"/>
     </UserControl.Resources>
     <Grid>
-        <fa:ImageAwesome Icon="Circle" Width="32" Foreground="{Binding Toggle, Converter={StaticResource boolToColour}}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label VerticalAlignment="Center" Margin="8">Toggle signal: </Label>
+        <fa:ImageAwesome Grid.Column="1" Icon="Circle" Width="32" Foreground="{Binding Toggle, Converter={StaticResource boolToColour}}"/>
+        <Label Grid.Column="2" VerticalAlignment="Center" Margin="8" Content="{Binding Toggle}" />
     </Grid>
 </UserControl>

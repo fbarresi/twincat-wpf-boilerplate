@@ -1,16 +1,14 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
 using DynamicData.Annotations;
 using ReactiveUI;
 using Serilog;
-using WpfApp.Interfaces.Commons;
 using WpfApp.Interfaces.Ui;
 
 namespace WpfApp.Gui.ViewModels
 {
-    public abstract class ViewModelBase : ReactiveObject, IInitializable, IViewModel
+    public abstract class ViewModelBase : ReactiveObject, IViewModel
     {
         protected CompositeDisposable Disposables = new CompositeDisposable();
         private bool disposed;

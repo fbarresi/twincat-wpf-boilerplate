@@ -5,9 +5,8 @@ using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using TwinCAT;
 using WpfApp.Interfaces.Extensions;
-using WpfApp.Interfaces.Hardware;
 
-namespace WpfApp.Logic.Hardware
+namespace WpfApp.Interfaces.Hardware
 {
     public class MockPlc : IPlc
     {
