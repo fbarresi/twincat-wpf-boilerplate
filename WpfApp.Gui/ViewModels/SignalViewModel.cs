@@ -34,7 +34,7 @@ namespace WpfApp.Gui.ViewModels
 
     internal class DesignSignalViewModel : SignalViewModel
     {
-        public DesignSignalViewModel() : base(new PlcProviderMock(), new ApplicationSetting())
+        public DesignSignalViewModel() : base(new DesignPlcProvider(), new ApplicationSetting())
         {
             Init();
         }

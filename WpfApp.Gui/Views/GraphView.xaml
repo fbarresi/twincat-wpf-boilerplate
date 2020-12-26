@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WpfApp.Gui.Views"
              xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
+             xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:DesignGraphViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        
+        <oxy:PlotView Margin="10" 
+                      Model="{Binding PlotModel}" >
+        </oxy:PlotView>
     </Grid>
 </UserControl>
