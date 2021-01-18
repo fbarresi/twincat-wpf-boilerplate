@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Federico Barresi",
+  "classifications": [
+    "winexe"
+  ],
+  "preferNameDirectory": "true",
+  "sourceName": "WpfApp",
+  "identity": "TwincatWpfHMI.template",
+  "name": "twincat wpf hmi",
+  "shortName": "tchmi",
+  "tags": {
+    "language": "C#"
+  }
+}

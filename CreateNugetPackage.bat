@@ -1,0 +1,1 @@
+nuget pack TwincatWpfHMI.template.nuspec -NoDefaultExcludes
