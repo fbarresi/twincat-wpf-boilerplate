@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">  
   <metadata>
     <id>TwincatWpfHMI.template</id>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <description>
       Creates an TwinCAT HMI in form of a WPF application.
     </description>
@@ -10,6 +10,7 @@
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
+    <license type="expression">MIT</license>
   </metadata>
   <files>
     <file src="**" target="content" exclude="**\bin\**\*.*;**\obj\**\*.*;.github\**;.git\**;**\.idea\**;LICENSE;*.md;*.nuspec;"/>
