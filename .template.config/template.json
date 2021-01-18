@@ -7,9 +7,10 @@
   "preferNameDirectory": "true",
   "sourceName": "WpfApp",
   "identity": "TwincatWpfHMI.template",
-  "name": "twincat wpf hmi",
+  "name": "Twincat WPF HMI",
   "shortName": "tchmi",
   "tags": {
-    "language": "C#"
+    "language": "C#",
+    "type": "project"
   }
 }
