@@ -20,6 +20,9 @@
             Bind<ApplicationSetting>().ToMethod(context =>
                 context.Kernel.Get<ISettingsProvider>().SettingRoot.ApplicationSetting);
             
+            Bind<SettingRoot>().ToMethod(context =>
+                context.Kernel.Get<ISettingsProvider>().SettingRoot);
+
             Bind<HardwareSetting>().ToMethod(context =>
                 context.Kernel.Get<ISettingsProvider>().SettingRoot.HardwareSetting);
 

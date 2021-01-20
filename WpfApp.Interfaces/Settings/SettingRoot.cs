@@ -6,6 +6,7 @@ namespace WpfApp.Interfaces.Settings
     {
         public ApplicationSetting ApplicationSetting { get; set; } = new ApplicationSetting();
         public HardwareSetting HardwareSetting { get; set; } = new HardwareSetting();
+        public CultureSetting CultureSettings { get; set; } = new CultureSetting();
 
         public void CreateDafaultSettings() // Default settings
         {

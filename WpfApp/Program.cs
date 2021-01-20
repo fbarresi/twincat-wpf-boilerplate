@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Markup;
 using Ninject;
 using Serilog;
 using WpfApp.Gui;
@@ -44,7 +47,7 @@ namespace WpfApp
 					mainWindow.DataContext = mainWindowViewModel;
 
 					logger.Information(string.Join("", Enumerable.Repeat("#",80)));
-
+					SetUiCulture();
 					application.Run(mainWindow);
 					application.Shutdown();
 					logger.Information("Application ended...");
@@ -89,6 +92,13 @@ namespace WpfApp
 			application.ReplaceViewModelLocator(viewModelLocator);
 
 			return application;
+		}
+		
+		private static void SetUiCulture()
+		{
+			var lang = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
+			FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(lang));
+			FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(TextElement), new FrameworkPropertyMetadata(lang));
 		}
 	}
     
