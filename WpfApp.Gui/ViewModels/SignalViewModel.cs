@@ -26,7 +26,7 @@ namespace WpfApp.Gui.ViewModels
             helper = plc.CreateNotification<bool>(setting.ToggleSignalName)
                         .ToProperty(this, vm => vm.Toggle, true);
 
-            Logger.Debug("Page view model initialized!");
+            Logger.Debug("SignalViewModel initialized!");
         }
 
         public bool Toggle => helper.Value;

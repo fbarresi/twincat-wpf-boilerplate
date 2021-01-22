@@ -10,5 +10,6 @@ namespace WpfApp.Interfaces.Hardware
         public IObservable<T> CreateNotification<T>(string variable);
         public Task<T> Read<T>(string variable);
         public Task Write<T>(string variable, T value);
+        IObservable<object> CreateNotification(string variable);
     }
 }

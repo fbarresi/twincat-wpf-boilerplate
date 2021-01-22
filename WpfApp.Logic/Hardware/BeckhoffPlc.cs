@@ -129,7 +129,32 @@ namespace WpfApp.Logic.Hardware
         }
 
         public IObservable<ConnectionState> ConnectionState => connectionStateSubject.AsObservable();
-        
+
+        public IObservable<object> CreateNotification(string variable)
+        {
+            return connectionStateSubject
+                    .DistinctUntilChanged()
+                    .Where(connectionStates => connectionStates == TwinCAT.ConnectionState.Connected)
+                    .Select(_ => ObserveRawVariable(variable))
+                    .Switch()
+                    .Retry()
+                ;
+        }
+
+        private IObservable<object> ObserveRawVariable(string variable)
+        {
+            var symbol = Client.ReadSymbol(variable);
+
+            Logger?.Debug(
+                $"Creating beckhoff notification for raw '{variable}' of type {symbol.DataType.Name}");
+
+            IObservable<object> observable = ((IValueSymbol) symbol).WhenValueChanged();
+
+            return observable 
+                    .Select(obj =>obj.TryConvertToDotNetManagedType())
+                ;
+        }
+
         public IObservable<T> CreateNotification<T>(string variable)
         {
             return connectionStateSubject
@@ -143,20 +168,10 @@ namespace WpfApp.Logic.Hardware
 
         private IObservable<T> ObserveVariable<T>(string variable)
         {
-            var symbol = Client.ReadSymbol(variable);
-
             Logger?.Debug(
-                $"Creating beckhoff notification for '{variable}' of type {typeof(T)} (internally {symbol.DataType.Name})");
-
-            IObservable<object> observable = ((IValueSymbol) symbol).WhenValueChanged();
-
-            return observable 
-                    .Select(obj =>
-                    {
-                        if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(TimeSpan))
-                            return obj.TryConvertToDotNetManagedType();
-                        return obj;
-                    })
+                $"Creating typed beckhoff notification for '{variable}' of type {typeof(T)}");
+            
+            return ObserveRawVariable(variable)
                     .Select(obj => obj.ConvertTo<T>())
                 ;
         }

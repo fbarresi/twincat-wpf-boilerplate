@@ -7,6 +7,7 @@
              xmlns:converters="clr-namespace:WpfApp.Gui.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
+             xmlns:basics="clr-namespace:WpfApp.Gui.Views.Basics"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:DesignSignalViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -19,9 +20,12 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Label VerticalAlignment="Center" Margin="8">Toggle signal: </Label>
         <fa:ImageAwesome Grid.Column="1" Icon="Circle" Width="32" Foreground="{Binding Toggle, Converter={StaticResource boolToColour}}"/>
         <Label Grid.Column="2" VerticalAlignment="Center" Margin="8" Content="{Binding Toggle}" />
+        <basics:PlcVariableView Grid.Column="3" VariablePath="Test"/>
     </Grid>
 </UserControl>

@@ -32,5 +32,10 @@ namespace WpfApp.Interfaces.Hardware
         {
             return Task.FromResult(Unit.Default);
         }
+
+        public IObservable<object> CreateNotification(string variable)
+        {
+            return CreateNotification<int>(variable).Select(i => i as object);
+        }
     }
 }

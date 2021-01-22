@@ -38,6 +38,8 @@ namespace WpfApp.Gui
 
         public MainWindowViewModel MainWindowViewModel => Kernel.Get<MainWindowViewModel>();
 
+        public PlcVariableViewModel PlcVariableViewModel => CreateViewModel<PlcVariableViewModel>();
+
         public T Create<T>()
         {
             var newObject = Kernel.Get<T>();
