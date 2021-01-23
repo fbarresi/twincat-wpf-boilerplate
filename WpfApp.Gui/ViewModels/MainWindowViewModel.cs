@@ -21,7 +21,7 @@ namespace WpfApp.Gui.ViewModels
         private readonly SettingRoot settingRoot;
         private bool sideMenuOpen;
         private ObservableAsPropertyHelper<ConnectionState> helper;
-        private ViewModelBase _activeViewModel;
+        private ViewModelBase activeViewModel;
 
         public ReactiveCommand<Unit, Unit> ToggleMenu { get; set; }
         public ReactiveCommand<Type, Unit> SwitchToViewModel { get; set; }
@@ -113,11 +113,11 @@ namespace WpfApp.Gui.ViewModels
 
         public ViewModelBase ActiveViewModel
         {
-            get => _activeViewModel;
+            get => activeViewModel;
             set 
             {
-                if (value == _activeViewModel) return;
-                _activeViewModel = value;
+                if (value == activeViewModel) return;
+                activeViewModel = value;
                 raisePropertyChanged();
             }
         }

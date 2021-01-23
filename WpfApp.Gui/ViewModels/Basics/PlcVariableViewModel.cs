@@ -101,7 +101,7 @@ namespace WpfApp.Gui.ViewModels.Basics
             Logger.Debug($"Setting up variable Plc Variable for {variablePath}");
             
             var plc = plcName == null ? provider.GetHardware() : provider.GetHardware(plcName);
-
+            PlcName = plcName;
             VariablePath = variablePath;
             Label = label;
             Description = description;
