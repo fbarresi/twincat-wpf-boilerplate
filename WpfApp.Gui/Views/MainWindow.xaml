@@ -18,7 +18,7 @@
                  AllowDrop="True"
                  Icon="../Resources/icon.png"
                  DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
-                 Title="Twincat WPF Boilerplate" Height="450" Width="800">
+                 Title="Twincat WPF Boilerplate" Height="650" Width="900">
     
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
@@ -32,18 +32,10 @@
                    OpenPaneLength="150"
                    >
         
+        <!-- side menu -->
         <mah:SplitView.Pane>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <!-- <Button Grid.Row="0"  -->
-                <!--         Command="{Binding ToggleMenu}" -->
-                <!--         Style="{StaticResource MaterialDesignFlatButton}"> -->
-                <!--     <materialDesign:PackIcon Kind="Backburger" Height="40"/> -->
-                <!-- </Button> -->
-                <StackPanel Orientation="Vertical" Grid.Row="1">
+                <StackPanel Orientation="Vertical">
                     <Button
                         Command="{Binding SwitchToViewModel}" 
                         CommandParameter="{x:Type viewModels:MainViewModel}"
@@ -63,6 +55,7 @@
     
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -93,12 +86,29 @@
                         Foreground="White"
                         VerticalContentAlignment="Center"
                         Content="{Binding ConnectionState}" ContentStringFormat="PLC State: {0}"/>
+                <!-- <materialDesign:PopupBox -->
+                <!--     Grid.Column="3" -->
+                <!--     Foreground="White" -->
+                <!--     StaysOpen="True"> -->
+                <!--     <Grid -->
+                <!--         Width="300" -->
+                <!--         Margin="8"> -->
+                <!--     </Grid> -->
+                <!--     ~1~ add menu here @1@ -->
+                <!-- </materialDesign:PopupBox> -->
 
             </Grid>
         </Border>
         
+        <!-- error bar -->
+        <Border Grid.Row="1">
+            <Grid>
+                <!-- todo -->
+            </Grid>
+        </Border>
+        
         <!-- content -->
-        <ContentPresenter Grid.Row="1"
+        <ContentPresenter Grid.Row="2"
                           Content="{Binding ActiveViewModel}"
                           Margin="4">
             <ContentPresenter.Resources>
@@ -112,7 +122,7 @@
         </ContentPresenter>
         
         <!-- Bottom bar -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             
         </Grid>
         

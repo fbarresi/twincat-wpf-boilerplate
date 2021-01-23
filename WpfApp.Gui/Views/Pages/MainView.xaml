@@ -14,6 +14,11 @@
              d:DesignHeight="300" d:DesignWidth="300"
              >
     <Grid>
-        <basics:PlcSignal VariablePath="Test" Label="{lex:Loc TestSignalLabel}"/>
+        <GroupBox Header="Important Signals">
+            <StackPanel>
+                <basics:PlcSignalOnOff VariablePath="Test" Label="{lex:Loc TestSignalLabel}"/>
+                <basics:PlcSignalOkNok VariablePath="Test2" Label="{lex:Loc TestSignalLabel}"/>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>
