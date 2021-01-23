@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">  
   <metadata>
     <id>TwincatWpfHMI.template</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <description>
       A TwinCAT HMI as a WPF application.
     </description>
