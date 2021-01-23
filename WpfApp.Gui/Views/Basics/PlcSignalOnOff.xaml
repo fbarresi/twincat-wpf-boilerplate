@@ -12,23 +12,27 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:BoolToBrushConverter x:Key="boolToColour" IfTrue="Green" IfFalse="Gray"/>
+        <converters:ConnectionStateToVisibilityConverter x:Key="ConnectionStateToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <fa:ImageAwesome Grid.Column="0" 
-                         Icon="Circle" 
-                         Width="32" 
-                         Foreground="{Binding RawValue, Converter={StaticResource boolToColour}}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <fa:ImageAwesome Grid.Column="0" 
+                             Icon="Circle" 
+                             Width="32" 
+                             Foreground="{Binding RawValue, Converter={StaticResource boolToColour}}"/>
 
-        <Label Grid.Column="1"
-               FontSize="16"
-               VerticalContentAlignment="Center"
-               Content="{Binding Label}" 
-               ToolTip="{Binding Description}"
-               Padding="8"
-               />
+            <Label Grid.Column="1"
+                   FontSize="16"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding Label}" 
+                   ToolTip="{Binding Description}"
+                   Padding="8"
+                   />
+        </Grid>
+        <Border Background="Gray" Opacity="0.5" Visibility="{Binding ConnectionState, Converter={StaticResource ConnectionStateToVisibilityConverter}}"/>
     </Grid>
 </basics:PlcUserControl>
