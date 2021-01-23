@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
-using DynamicData.Annotations;
+using JetBrains.Annotations;
 using ReactiveUI;
 using Serilog;
 using WpfApp.Interfaces.Ui;
