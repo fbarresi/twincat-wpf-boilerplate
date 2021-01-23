@@ -22,6 +22,7 @@ namespace WpfApp.Gui.ViewModels
         {
             this.plcProvider = plcProvider;
             this.setting = setting;
+            Title = "Graph View";
         }
         
         public override void Init()

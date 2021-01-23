@@ -35,7 +35,7 @@ namespace WpfApp.Interfaces.Hardware
 
         public IObservable<object> CreateNotification(string variable)
         {
-            return CreateNotification<int>(variable).Select(i => i as object);
+            return CreateNotification<bool>(variable).Select(i => i as object);
         }
     }
 }

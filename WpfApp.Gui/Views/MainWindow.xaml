@@ -8,6 +8,11 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                 xmlns:pages="clr-namespace:WpfApp.Gui.Views.Pages"
+                 xmlns:lex="http://wpflocalizeextension.codeplex.com"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 lex:ResxLocalizationProvider.DefaultAssembly="WpfApp.Gui"
+                 lex:ResxLocalizationProvider.DefaultDictionary="Contents"
                  mc:Ignorable="d"
                  WindowStartupLocation="CenterScreen"
                  AllowDrop="True"
@@ -20,6 +25,41 @@
             <Image Source="../Resources/icon.png"></Image>
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
+
+    <mah:SplitView DisplayMode="Inline"
+                   IsPaneOpen="{Binding SideMenuOpen}"
+                   CanResizeOpenPane="True"
+                   OpenPaneLength="150"
+                   >
+        
+        <mah:SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!-- <Button Grid.Row="0"  -->
+                <!--         Command="{Binding ToggleMenu}" -->
+                <!--         Style="{StaticResource MaterialDesignFlatButton}"> -->
+                <!--     <materialDesign:PackIcon Kind="Backburger" Height="40"/> -->
+                <!-- </Button> -->
+                <StackPanel Orientation="Vertical" Grid.Row="1">
+                    <Button
+                        Command="{Binding SwitchToViewModel}" 
+                        CommandParameter="{x:Type viewModels:MainViewModel}"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Main View
+                    </Button>
+                
+                    <Button
+                        Command="{Binding SwitchToViewModel}" 
+                        CommandParameter="{x:Type viewModels:GraphViewModel}"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Graph View
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </mah:SplitView.Pane>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -29,48 +69,54 @@
         </Grid.RowDefinitions>
 
         <!-- Top Bar -->
-        <Grid Grid.Row="0" Margin="8">
-            <materialDesign:Card
-                Width="200"
-                HorizontalAlignment="Left"
-                UniformCornerRadius="6">
-                <Label Content="{Binding ConnectionState}" ContentStringFormat="PLC State: {0}"/>
+        <Border Grid.Row="0" Background="{DynamicResource PrimaryHueMidBrush}">
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ToggleButton Grid.Column="0"
+                              Foreground="White"
+                              IsChecked="{Binding SideMenuOpen}"
+                              Style="{DynamicResource MaterialDesignHamburgerToggleButton}">
+                    <materialDesign:PackIcon Kind="Menu" Height="40"/>
+                </ToggleButton>
+                <Label Grid.Column="1" 
+                       Foreground="White"
+                       FontSize="20"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center"
+                       Content="{Binding ActiveViewModel.Title}"
+                       />
+                <Label Grid.Column="2" 
+                        Foreground="White"
+                        VerticalContentAlignment="Center"
+                        Content="{Binding ConnectionState}" ContentStringFormat="PLC State: {0}"/>
 
-            </materialDesign:Card>
-        </Grid>
+            </Grid>
+        </Border>
         
         <!-- content -->
         <ContentPresenter Grid.Row="1"
                           Content="{Binding ActiveViewModel}"
                           Margin="4">
             <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type viewModels:SignalViewModel}">
-                    <views:SignalView />
+                <DataTemplate DataType="{x:Type viewModels:MainViewModel}">
+                    <pages:MainView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:GraphViewModel}">
-                    <views:GraphView />
+                    <pages:GraphView />
                 </DataTemplate>
             </ContentPresenter.Resources>
         </ContentPresenter>
         
         <!-- Bottom bar -->
         <Grid Grid.Row="2">
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    Margin="8"
-                    Command="{Binding SwitchToViewModel}" 
-                    CommandParameter="{x:Type viewModels:SignalViewModel}">
-                    Signal View
-                </Button>
-                
-                <Button
-                    Margin="8"
-                    Command="{Binding SwitchToViewModel}" 
-                    CommandParameter="{x:Type viewModels:GraphViewModel}">
-                    Graph View
-                </Button>
-            </StackPanel>
+            
         </Grid>
         
     </Grid>
+        
+        </mah:SplitView>
 </mah:MetroWindow>

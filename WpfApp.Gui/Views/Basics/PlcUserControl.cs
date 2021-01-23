@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
 using WpfApp.Gui.ViewModels;
+using WpfApp.Gui.ViewModels.Basics;
 
 namespace WpfApp.Gui.Views.Basics
 {

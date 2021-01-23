@@ -19,20 +19,21 @@ namespace WpfApp.Gui.ViewModels
         private readonly IPlcProvider provider;
         private readonly IPresentationService presentationService;
         private readonly SettingRoot settingRoot;
-        private string _test;
+        private bool sideMenuOpen;
         private ObservableAsPropertyHelper<ConnectionState> helper;
         private ViewModelBase _activeViewModel;
 
+        public ReactiveCommand<Unit, Unit> ToggleMenu { get; set; }
         public ReactiveCommand<Type, Unit> SwitchToViewModel { get; set; }
         public ReactiveCommand<string, Unit> ChangeLanguageCmd { get; set; }
 
-        public string Test
+        public bool SideMenuOpen
         {
-            get => _test;
+            get => sideMenuOpen;
             set
             {
-                if(value == _test) return;
-                _test = value;
+                if(value == sideMenuOpen) return;
+                sideMenuOpen = value;
                 raisePropertyChanged();    
             }
         }
@@ -64,6 +65,16 @@ namespace WpfApp.Gui.ViewModels
             
             SwitchToViewModel = ReactiveCommand.CreateFromTask<Type, Unit>(SwitchTo)
                 .AddDisposableTo(Disposables);
+
+            ToggleMenu = ReactiveCommand.CreateFromTask(ToggleSideMenuOpen)
+                .AddDisposableTo(Disposables);
+            
+        }
+
+        private Task<Unit> ToggleSideMenuOpen()
+        {
+            SideMenuOpen = !SideMenuOpen;
+            return Task.FromResult(Unit.Default);
         }
 
         private Task ChangeCurrentCulture(string culture)
@@ -81,6 +92,7 @@ namespace WpfApp.Gui.ViewModels
         private Task<Unit> SwitchTo(Type type)
         {
             presentationService.SwitchActiveViewModel(type);
+            SideMenuOpen = false;
             return Task.FromResult(Unit.Default);
         }
 
@@ -96,7 +108,7 @@ namespace WpfApp.Gui.ViewModels
 
         private void SetInitialViewModel()
         {
-            presentationService.SwitchActiveViewModel<SignalViewModel>();
+            presentationService.SwitchActiveViewModel<MainViewModel>();
         }
 
         public ViewModelBase ActiveViewModel
@@ -109,5 +121,6 @@ namespace WpfApp.Gui.ViewModels
                 raisePropertyChanged();
             }
         }
+
     }
 }

@@ -5,7 +5,7 @@ using TwinCAT;
 using WpfApp.Interfaces.Extensions;
 using WpfApp.Interfaces.Services;
 
-namespace WpfApp.Gui.ViewModels
+namespace WpfApp.Gui.ViewModels.Basics
 {
     public class PlcVariableViewModel : ViewModelBase
     {

@@ -1,8 +1,8 @@
 ﻿namespace WpfApp.Gui.Views.Basics
 {
-    public partial class PlcVariableView : PlcUserControl
+    public partial class PlcSignal : PlcUserControl
     {
-        public PlcVariableView()
+        public PlcSignal()
         {
             InitializeComponent();
         }

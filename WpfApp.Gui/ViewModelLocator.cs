@@ -2,6 +2,7 @@
 using Ninject;
 using Ninject.Parameters;
 using WpfApp.Gui.ViewModels;
+using WpfApp.Gui.ViewModels.Basics;
 using WpfApp.Interfaces;
 using WpfApp.Interfaces.Commons;
 using WpfApp.Interfaces.Ui;

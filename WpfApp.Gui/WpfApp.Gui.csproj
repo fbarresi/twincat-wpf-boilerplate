@@ -55,6 +55,11 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Contents.resx</DependentUpon>
       </Compile>
+      <Compile Update="Contents.de.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Contents.de.resx</DependentUpon>
+        <DesignTime>True</DesignTime>
+      </Compile>
     </ItemGroup>
 
 </Project>
