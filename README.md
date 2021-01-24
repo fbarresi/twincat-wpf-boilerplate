@@ -29,7 +29,7 @@ dotnet new tchmi -n MyFancyHMI -o MyFancyWorkingDirectory
 
 ### Design your HMI in XAML
 
-#### With included contols
+#### With included controls
 
 `todo`
 
