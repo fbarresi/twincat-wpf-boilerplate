@@ -25,6 +25,7 @@ namespace WpfApp.Gui.ViewModels.Basics
         private object rawValue;
         private IPlc plc;
         private object setParameter;
+        private string valueFormat;
 
         public ReactiveCommand<Unit, Unit> SetVariable { get; set; }
         public PlcVariableViewModel(IPlcProvider provider)
@@ -127,8 +128,19 @@ namespace WpfApp.Gui.ViewModels.Basics
             }
         }
 
+        public string ValueFormat
+        {
+            get => valueFormat;
+            set
+            {
+                if (value == valueFormat) return;
+                valueFormat = value;
+                raisePropertyChanged();
+            }
+        }
+
         public void SetupVariableViewModel(string plcName, string variablePath, string label, string description,
-            object setParameter)
+            object setParameter, string valueFormat)
         {
             var subscriptions = new CompositeDisposable();
             
@@ -140,6 +152,7 @@ namespace WpfApp.Gui.ViewModels.Basics
             Label = label;
             Description = description;
             SetParameter = setParameter;
+            ValueFormat = valueFormat;
             
             plc.ConnectionState
                 .DistinctUntilChanged()

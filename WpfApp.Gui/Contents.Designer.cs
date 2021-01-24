@@ -79,6 +79,15 @@ namespace WpfApp.Gui.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Button.
+        /// </summary>
+        internal static string TestButton {
+            get {
+                return ResourceManager.GetString("TestButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string TestSignalDescription {

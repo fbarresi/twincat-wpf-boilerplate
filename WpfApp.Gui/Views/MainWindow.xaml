@@ -59,15 +59,21 @@
                     <Button
                         Command="{Binding SwitchToViewModel}" 
                         CommandParameter="{x:Type viewModels:SettingsViewModel}"
-                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        MinHeight="50">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <materialDesign:PackIcon Kind="Cog" Grid.Column="0"/>
+                            <materialDesign:PackIcon Kind="Cog" Grid.Column="0" VerticalAlignment="Center"/>
                             <Label Content="{lex:Loc Settings}" VerticalAlignment="Center" Grid.Column="1"/>
                         </Grid>
+                    </Button>
+                    
+                    <Button
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Login
                     </Button>
                 </StackPanel>
             </Grid>

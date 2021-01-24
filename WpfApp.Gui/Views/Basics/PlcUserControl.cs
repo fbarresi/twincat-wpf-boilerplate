@@ -16,7 +16,7 @@ namespace WpfApp.Gui.Views.Basics
             {
                 if (ViewModel != null)
                 {
-                    ViewModel.SetupVariableViewModel(PlcName, VariablePath, Label, Description, SetParameter);
+                    ViewModel.SetupVariableViewModel(PlcName, VariablePath, Label, Description, SetParameter, ValueFormat);
                     ViewModel.DisposeWith(disposables);
                 }
             });
@@ -24,6 +24,7 @@ namespace WpfApp.Gui.Views.Basics
 
         public readonly DependencyProperty VariablePathProperty = DependencyProperty.Register(nameof(VariablePath)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
         public readonly DependencyProperty SetParameterProperty = DependencyProperty.Register(nameof(SetParameter)+Guid.NewGuid(), typeof(object), typeof(PlcUserControl));
+        public readonly DependencyProperty ValueFormatProperty = DependencyProperty.Register(nameof(ValueFormat)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
         public readonly DependencyProperty PlcNameProperty = DependencyProperty.Register(nameof(PlcNameProperty)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
         public readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(LabelProperty)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
         public readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(DescriptionProperty)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
@@ -40,6 +41,12 @@ namespace WpfApp.Gui.Views.Basics
             set => SetValue(SetParameterProperty, value);
         }
 
+        public string ValueFormat
+        {
+            get => (string) GetValue(ValueFormatProperty);
+            set => SetValue(ValueFormatProperty, value);
+        }
+        
         public string PlcName 
         {
             get => (string) GetValue(PlcNameProperty);
