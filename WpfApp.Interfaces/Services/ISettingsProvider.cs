@@ -4,7 +4,7 @@ namespace WpfApp.Interfaces.Services
 {
     public interface ISettingsProvider
     {
-        SettingRoot SettingRoot { get; set; }
+        SettingRoot SettingRoot { get; }
         void SaveSettings();
     }
 }

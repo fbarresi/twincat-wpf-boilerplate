@@ -24,4 +24,10 @@
     <data name="TestSignalDescription" xml:space="preserve">
         <value>Description</value>
     </data>
+    <data name="Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
 </root>

@@ -35,6 +35,10 @@
         <!-- side menu -->
         <mah:SplitView.Pane>
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <StackPanel Orientation="Vertical">
                     <Button
                         Command="{Binding SwitchToViewModel}" 
@@ -48,6 +52,22 @@
                         CommandParameter="{x:Type viewModels:GraphViewModel}"
                         Style="{StaticResource MaterialDesignFlatButton}">
                         Graph View
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Row="1">
+                    
+                    <Button
+                        Command="{Binding SwitchToViewModel}" 
+                        CommandParameter="{x:Type viewModels:SettingsViewModel}"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Kind="Cog" Grid.Column="0"/>
+                            <Label Content="{lex:Loc Settings}" VerticalAlignment="Center" Grid.Column="1"/>
+                        </Grid>
                     </Button>
                 </StackPanel>
             </Grid>
@@ -68,6 +88,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <ToggleButton Grid.Column="0"
                               Foreground="White"
@@ -86,16 +107,18 @@
                         Foreground="White"
                         VerticalContentAlignment="Center"
                         Content="{Binding ConnectionState}" ContentStringFormat="PLC State: {0}"/>
-                <!-- <materialDesign:PopupBox -->
-                <!--     Grid.Column="3" -->
-                <!--     Foreground="White" -->
-                <!--     StaysOpen="True"> -->
-                <!--     <Grid -->
-                <!--         Width="300" -->
-                <!--         Margin="8"> -->
-                <!--     </Grid> -->
-                <!--     ~1~ add menu here @1@ -->
-                <!-- </materialDesign:PopupBox> -->
+                <materialDesign:PopupBox
+                    Grid.Column="3"
+                    Foreground="White"
+                    StaysOpen="True">
+                    <Grid
+                        Width="300"
+                        Margin="8">
+                        <ComboBox ItemsSource="{Binding SupportedCultures}" 
+                                  SelectedItem="{Binding SelectedLanguage}"
+                                  materialDesign:HintAssist.HelperText="Language"/>
+                    </Grid>
+                </materialDesign:PopupBox>
 
             </Grid>
         </Border>
@@ -117,6 +140,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:GraphViewModel}">
                     <pages:GraphView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+                    <pages:SettingsView />
                 </DataTemplate>
             </ContentPresenter.Resources>
         </ContentPresenter>

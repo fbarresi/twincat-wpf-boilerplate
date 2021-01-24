@@ -22,11 +22,25 @@ namespace WpfApp.Gui.ViewModels
         private bool sideMenuOpen;
         private ObservableAsPropertyHelper<ConnectionState> helper;
         private ViewModelBase activeViewModel;
+        private CultureInfo selectedLanguage;
 
         public ReactiveCommand<Unit, Unit> ToggleMenu { get; set; }
         public ReactiveCommand<Type, Unit> SwitchToViewModel { get; set; }
         public ReactiveCommand<string, Unit> ChangeLanguageCmd { get; set; }
 
+        public CultureInfo SelectedLanguage
+        {
+            get => selectedLanguage;
+            set
+            {
+                if (value == selectedLanguage) return;
+                selectedLanguage = value;
+                raisePropertyChanged();
+            }
+        }
+
+        public CultureInfo[] SupportedCultures => settingRoot.CultureSettings.SupportedCultures;
+        
         public bool SideMenuOpen
         {
             get => sideMenuOpen;
@@ -49,7 +63,13 @@ namespace WpfApp.Gui.ViewModels
         public override void Init()
         {
             InitializeLocalization();
-            
+            SelectedLanguage = settingRoot.CultureSettings.SelectedCulture;
+            this.WhenAnyValue(vm => vm.SelectedLanguage)
+                .ObserveOnDispatcher()
+                .Do(ChangeCurrentCulture)
+                .Subscribe()
+                .AddDisposableTo(Disposables);
+
             ChangeLanguageCmd = ReactiveCommand.CreateFromTask<string>(ChangeCurrentCulture)
                 .AddDisposableTo(Disposables);
 
@@ -82,6 +102,13 @@ namespace WpfApp.Gui.ViewModels
             settingRoot.CultureSettings.SelectedCulture = CultureInfo.GetCultureInfo(culture);
             LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(culture);
             return Task.FromResult(Unit.Default);
+        }
+        
+        private void ChangeCurrentCulture(CultureInfo culture)
+        {
+            Logger.Debug("Setting current culture to {culture}", culture);
+            settingRoot.CultureSettings.SelectedCulture = culture;
+            LocalizeDictionary.Instance.Culture = culture;
         }
 
         private void InitializeLocalization()

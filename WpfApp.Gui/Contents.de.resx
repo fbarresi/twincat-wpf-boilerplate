@@ -24,4 +24,10 @@
     <data name="TestSignalLabel" xml:space="preserve">
         <value>Lampe</value>
     </data>
+    <data name="Save" xml:space="preserve">
+        <value>Speichern</value>
+    </data>
+    <data name="Settings" xml:space="preserve">
+        <value>Einstellungen</value>
+    </data>
 </root>
