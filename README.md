@@ -12,6 +12,11 @@ an hackable template for building fabulous wpf hmi with twincat
 - :heavy_check_mark: Fully hackable, customizable and extendable with c#
 
 
+## Example
+
+![](docs/example1.gif)
+
+
 ## Quickstart
 
 ### Create your application
