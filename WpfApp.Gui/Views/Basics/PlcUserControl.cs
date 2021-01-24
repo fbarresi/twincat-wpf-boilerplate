@@ -16,13 +16,14 @@ namespace WpfApp.Gui.Views.Basics
             {
                 if (ViewModel != null)
                 {
-                    ViewModel.SetupVariableViewModel(PlcName, VariablePath, Label, Description);
+                    ViewModel.SetupVariableViewModel(PlcName, VariablePath, Label, Description, SetParameter);
                     ViewModel.DisposeWith(disposables);
                 }
             });
         }
 
         public readonly DependencyProperty VariablePathProperty = DependencyProperty.Register(nameof(VariablePath)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
+        public readonly DependencyProperty SetParameterProperty = DependencyProperty.Register(nameof(SetParameter)+Guid.NewGuid(), typeof(object), typeof(PlcUserControl));
         public readonly DependencyProperty PlcNameProperty = DependencyProperty.Register(nameof(PlcNameProperty)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
         public readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(LabelProperty)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
         public readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(DescriptionProperty)+Guid.NewGuid(), typeof(string), typeof(PlcUserControl));
@@ -31,6 +32,12 @@ namespace WpfApp.Gui.Views.Basics
         {
             get => (string) GetValue(VariablePathProperty);
             set => SetValue(VariablePathProperty, value);
+        }
+        
+        public object SetParameter
+        {
+            get => GetValue(SetParameterProperty);
+            set => SetValue(SetParameterProperty, value);
         }
 
         public string PlcName 

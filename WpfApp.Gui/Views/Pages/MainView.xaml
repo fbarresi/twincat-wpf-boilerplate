@@ -13,11 +13,54 @@
              d:DataContext="{d:DesignInstance viewModels:DesignMainViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
              >
+    <UserControl.Resources>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <GroupBox Header="Important Signals">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Important Signals" Grid.Column="0">
             <StackPanel>
                 <basics:PlcSignalOnOff VariablePath="bTest" Label="{lex:Loc TestSignalLabel}"/>
                 <basics:PlcSignalOkNok VariablePath="bTest2" Label="{lex:Loc TestSignalLabel}"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Important Signals" Grid.Column="1">
+            <StackPanel>
+                <basics:PlcSignalOnOff VariablePath="bTest" Label="{lex:Loc TestSignalLabel}"/>
+                <basics:PlcSignalOkNok VariablePath="bTest2" Label="{lex:Loc TestSignalLabel}"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Important Signals" Grid.Column="2">
+            <StackPanel>
+                <basics:PlcSignalOnOff VariablePath="bTest" Label="{lex:Loc TestSignalLabel}"/>
+                <basics:PlcSignalOkNok VariablePath="bTest2" Label="{lex:Loc TestSignalLabel}"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Important Signals" Grid.Column="0" Grid.Row="1">
+            <StackPanel>
+                <basics:PlcSignalOnOff VariablePath="bTest" Label="{lex:Loc TestSignalLabel}"/>
+                <basics:PlcSignalOkNok VariablePath="bTest2" Label="{lex:Loc TestSignalLabel}"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Important Signals" Grid.Column="1" Grid.Row="1">
+            <StackPanel>
+                <basics:PlcSignalOnOff VariablePath="bTest" Label="{lex:Loc TestSignalLabel}"/>
+                <basics:PlcSignalOkNok VariablePath="bTest2" Label="{lex:Loc TestSignalLabel}"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Important Signals" Grid.Column="2" Grid.Row="1">
+            <StackPanel>
+                <basics:PlcButton VariablePath="bTest" Label="{lex:Loc TestSignalLabel}" />
             </StackPanel>
         </GroupBox>
     </Grid>

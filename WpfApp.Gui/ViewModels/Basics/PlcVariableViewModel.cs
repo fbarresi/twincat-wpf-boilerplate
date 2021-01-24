@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Threading.Tasks;
+using ReactiveUI;
 using TwinCAT;
 using WpfApp.Interfaces.Extensions;
+using WpfApp.Interfaces.Hardware;
 using WpfApp.Interfaces.Services;
 
 namespace WpfApp.Gui.ViewModels.Basics
@@ -15,9 +20,13 @@ namespace WpfApp.Gui.ViewModels.Basics
         private string label;
         private string description;
         private readonly SerialDisposable variableSubscriptions = new SerialDisposable();
+        private readonly BehaviorSubject<bool> canSetVariable = new BehaviorSubject<bool>(false);
         private ConnectionState connectionState;
         private object rawValue;
+        private IPlc plc;
+        private object setParameter;
 
+        public ReactiveCommand<Unit, Unit> SetVariable { get; set; }
         public PlcVariableViewModel(IPlcProvider provider)
         {
             this.provider = provider;
@@ -25,7 +34,20 @@ namespace WpfApp.Gui.ViewModels.Basics
         public override void Init()
         {
             variableSubscriptions.AddDisposableTo(Disposables);
+
+            SetVariable = ReactiveCommand
+                    .CreateFromTask<Unit, Unit>(WriteVariable)
+                    .AddDisposableTo(Disposables)
+                    ;
+            
             Logger.Debug("PlcVariableViewModel view model initialized!");
+        }
+
+        private async Task<Unit> WriteVariable(Unit arg)
+        {
+            if (plc == null) return Unit.Default;
+            await plc.Write(VariablePath, SetParameter);
+            return Unit.Default;
         }
 
         public string VariablePath
@@ -94,19 +116,34 @@ namespace WpfApp.Gui.ViewModels.Basics
             }
         }
 
-        public void SetupVariableViewModel(string plcName, string variablePath, string label, string description)
+        public object SetParameter
+        {
+            get => setParameter;
+            set
+            {
+                if (Equals(value, setParameter)) return;
+                setParameter = value;
+                raisePropertyChanged();
+            }
+        }
+
+        public void SetupVariableViewModel(string plcName, string variablePath, string label, string description,
+            object setParameter)
         {
             var subscriptions = new CompositeDisposable();
             
             Logger.Debug($"Setting up variable Plc Variable for {variablePath}");
             
-            var plc = plcName == null ? provider.GetHardware() : provider.GetHardware(plcName);
+            plc = plcName == null ? provider.GetHardware() : provider.GetHardware(plcName);
             PlcName = plcName;
             VariablePath = variablePath;
             Label = label;
             Description = description;
+            SetParameter = setParameter;
             
-            plc.ConnectionState.ObserveOnDispatcher()
+            plc.ConnectionState
+                .DistinctUntilChanged()
+                .ObserveOnDispatcher()
                 .Do(cs => ConnectionState = cs)
                 .Subscribe()
                 .AddDisposableTo(subscriptions)
@@ -119,6 +156,14 @@ namespace WpfApp.Gui.ViewModels.Basics
                 .AddDisposableTo(subscriptions)
                 ;
 
+            plc.ConnectionState
+                .DistinctUntilChanged()
+                .ObserveOnDispatcher()
+                .Select(state => state == ConnectionState.Connected)
+                .Subscribe(canSetVariable.OnNext)
+                .AddDisposableTo(Disposables)
+                ;
+            
             variableSubscriptions.Disposable = subscriptions;
         }
     }
