@@ -25,7 +25,7 @@ namespace WpfApp.Gui.ViewModels
             Title = "Graph View";
         }
         
-        public override void Init()
+        protected override void Initialize()
         {
             PlotModel = new PlotModel();
             PlotModel.Series.Add(new LineSeries());

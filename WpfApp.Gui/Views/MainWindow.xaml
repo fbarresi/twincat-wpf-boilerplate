@@ -12,6 +12,7 @@
                  xmlns:pages="clr-namespace:WpfApp.Gui.Views.Pages"
                  xmlns:lex="http://wpflocalizeextension.codeplex.com"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:converters="clr-namespace:WpfApp.Gui.Converters"
                  lex:ResxLocalizationProvider.DefaultAssembly="WpfApp.Gui"
                  lex:ResxLocalizationProvider.DefaultDictionary="Contents"
                  mc:Ignorable="d"
@@ -20,6 +21,10 @@
                  Icon="../Resources/icon.png"
                  DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
                  Title="Twincat WPF Boilerplate" Height="650" Width="900">
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="VisibleIfTrue" IfTrue="Visible" IfFalse="Collapsed"/>
+        <converters:BoolToVisibilityConverter x:Key="VisibleIfFalse" IfTrue="Collapsed" IfFalse="Visible"/>
+    </Window.Resources>
     
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
@@ -73,9 +78,16 @@
                     </Button>
                     
                     <Button
+                        Visibility="{Binding LoggedIn, Converter={StaticResource VisibleIfFalse}}"
                         Command="{Binding Login}" 
                         Style="{StaticResource MaterialDesignFlatButton}">
                         Login
+                    </Button>
+                    <Button
+                        Visibility="{Binding LoggedIn, Converter={StaticResource VisibleIfTrue}}"
+                        Command="{Binding Logout}" 
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Logout
                     </Button>
                 </StackPanel>
             </Grid>
@@ -120,7 +132,7 @@
                     Foreground="White"
                     StaysOpen="True">
                     <Grid
-                        Width="300"
+                        Width="200"
                         Margin="8">
                         <ComboBox ItemsSource="{Binding SupportedCultures}" 
                                   SelectedItem="{Binding SelectedLanguage}"

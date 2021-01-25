@@ -36,6 +36,8 @@ namespace WpfApp.Logic.Services
             return found;
         }
 
+        public int CountElementInCollection<T>(string name) where T : new() => GetDbCollection<T>(name).Count();
+
         public T InsertIntoCollection<T>(string name, T obj) where T : new()
         {
             var collection = GetDbCollection<T>(name);

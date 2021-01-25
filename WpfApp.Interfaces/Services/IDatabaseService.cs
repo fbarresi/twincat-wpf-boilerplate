@@ -11,5 +11,6 @@ namespace WpfApp.Interfaces.Services
         T UpdateIntoCollection<T>(string name, T obj) where T : new();
         bool RemoveFromCollection<T>(string name, T obj) where T : new();
         void IndexCollection<T>(string name, Expression<Func<T, string>> index) where T : new();
+        int CountElementInCollection<T>(string name) where T : new();
     }
 }

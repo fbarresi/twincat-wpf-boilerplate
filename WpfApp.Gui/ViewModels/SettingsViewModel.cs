@@ -20,7 +20,7 @@ namespace WpfApp.Gui.ViewModels
             this.settingsProvider = settingsProvider;
             Setting = setting;
         }
-        public override void Init()
+        protected override void Initialize()
         {
             SaveSettings = ReactiveCommand.CreateFromTask(Save).AddDisposableTo(Disposables);
         }

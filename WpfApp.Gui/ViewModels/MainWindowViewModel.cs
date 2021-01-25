@@ -7,6 +7,7 @@ using MahApps.Metro.Controls.Dialogs;
 using ReactiveUI;
 using TwinCAT;
 using WpfApp.Interfaces.Commons;
+using WpfApp.Interfaces.Exceptions;
 using WpfApp.Interfaces.Extensions;
 using WpfApp.Interfaces.Services;
 using WpfApp.Interfaces.Settings;
@@ -28,6 +29,7 @@ namespace WpfApp.Gui.ViewModels
 
         public ReactiveCommand<Unit, Unit> ToggleMenu { get; set; }
         public ReactiveCommand<Unit, Unit> Login { get; set; }
+        public ReactiveCommand<Unit, Unit> Logout { get; set; }
         public ReactiveCommand<Type, Unit> SwitchToViewModel { get; set; }
         public ReactiveCommand<string, Unit> ChangeLanguageCmd { get; set; }
 
@@ -64,7 +66,7 @@ namespace WpfApp.Gui.ViewModels
             this.provider = provider;
             this.settingRoot = settingRoot;
         }
-        public override void Init()
+        protected override void Initialize()
         {
             InitializeLocalization();
             SelectedLanguage = settingRoot.CultureSettings.SelectedCulture;
@@ -95,6 +97,14 @@ namespace WpfApp.Gui.ViewModels
             
             Login = ReactiveCommand.CreateFromTask(ShowLoginDialog)
                 .AddDisposableTo(Disposables);
+            Logout = ReactiveCommand.CreateFromTask(ExecuteLogout)
+                .AddDisposableTo(Disposables);
+        }
+
+        private Task<Unit> ExecuteLogout()
+        {
+            UserService.Logout();
+            return Task.FromResult(Unit.Default);
         }
 
         private async Task<Unit> ShowLoginDialog()
@@ -104,8 +114,19 @@ namespace WpfApp.Gui.ViewModels
                     "Login", 
                     "Enter your credentials", 
                     new LoginDialogSettings{EnablePasswordPreview = true});
+
+            if(result == null) return Unit.Default;
             
-            
+            try
+            {
+                UserService.Login(result.Username, result.Password);
+            }
+            catch (LoginFailedException e)
+            {
+                Logger.Error(e, "Error while login");
+                await dialogCoordinator.ShowMessageAsync(this, "Error", e.Message, MessageDialogStyle.Affirmative,
+                    new MetroDialogSettings() { });
+            }
             
             return Unit.Default;
         }

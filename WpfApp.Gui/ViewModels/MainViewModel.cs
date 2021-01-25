@@ -19,7 +19,7 @@ namespace WpfApp.Gui.ViewModels
             this.setting = setting;
             Title = "Main View";
         }
-        public override void Init()
+        protected override void Initialize()
         {
             var plc = provider.GetHardware();
 

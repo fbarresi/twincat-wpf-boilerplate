@@ -32,7 +32,7 @@ namespace WpfApp.Gui.ViewModels.Basics
         {
             this.provider = provider;
         }
-        public override void Init()
+        protected override void Initialize()
         {
             variableSubscriptions.AddDisposableTo(Disposables);
 

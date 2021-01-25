@@ -12,7 +12,7 @@ namespace WpfApp.Interfaces.Services
         bool AddUser(string name, string password, IEnumerable<Role> roles);
         bool UpdateUser(string name, string password, IEnumerable<Role> roles);
         bool RemoveUser(string name);
-        
-        
+        void Logout();
+
     }
 }
