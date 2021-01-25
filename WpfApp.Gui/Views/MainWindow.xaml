@@ -6,6 +6,7 @@
                  xmlns:local="clr-namespace:WpfApp.Gui"
                  xmlns:views="clr-namespace:WpfApp.Gui.Views"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 mah:DialogParticipation.Register="{Binding}"
                  xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                  xmlns:pages="clr-namespace:WpfApp.Gui.Views.Pages"
@@ -72,6 +73,7 @@
                     </Button>
                     
                     <Button
+                        Command="{Binding Login}" 
                         Style="{StaticResource MaterialDesignFlatButton}">
                         Login
                     </Button>

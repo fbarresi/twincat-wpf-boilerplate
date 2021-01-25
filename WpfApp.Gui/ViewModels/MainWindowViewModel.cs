@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using MahApps.Metro.Controls.Dialogs;
 using ReactiveUI;
 using TwinCAT;
 using WpfApp.Interfaces.Commons;
@@ -16,6 +17,7 @@ namespace WpfApp.Gui.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private readonly IDialogCoordinator dialogCoordinator;
         private readonly IPlcProvider provider;
         private readonly IPresentationService presentationService;
         private readonly SettingRoot settingRoot;
@@ -25,6 +27,7 @@ namespace WpfApp.Gui.ViewModels
         private CultureInfo selectedLanguage;
 
         public ReactiveCommand<Unit, Unit> ToggleMenu { get; set; }
+        public ReactiveCommand<Unit, Unit> Login { get; set; }
         public ReactiveCommand<Type, Unit> SwitchToViewModel { get; set; }
         public ReactiveCommand<string, Unit> ChangeLanguageCmd { get; set; }
 
@@ -54,10 +57,11 @@ namespace WpfApp.Gui.ViewModels
 
         public ConnectionState ConnectionState => helper?.Value ?? ConnectionState.None;
 
-        public MainWindowViewModel(IPlcProvider provider, IPresentationService presentationService, SettingRoot settingRoot)
+        public MainWindowViewModel(IDialogCoordinator dialogCoordinator, IPresentationService presentationService, IPlcProvider provider, SettingRoot settingRoot)
         {
-            this.provider = provider;
+            this.dialogCoordinator = dialogCoordinator;
             this.presentationService = presentationService;
+            this.provider = provider;
             this.settingRoot = settingRoot;
         }
         public override void Init()
@@ -89,6 +93,21 @@ namespace WpfApp.Gui.ViewModels
             ToggleMenu = ReactiveCommand.CreateFromTask(ToggleSideMenuOpen)
                 .AddDisposableTo(Disposables);
             
+            Login = ReactiveCommand.CreateFromTask(ShowLoginDialog)
+                .AddDisposableTo(Disposables);
+        }
+
+        private async Task<Unit> ShowLoginDialog()
+        {
+            var result = await dialogCoordinator
+                .ShowLoginAsync(this, 
+                    "Login", 
+                    "Enter your credentials", 
+                    new LoginDialogSettings{EnablePasswordPreview = true});
+            
+            
+            
+            return Unit.Default;
         }
 
         private Task<Unit> ToggleSideMenuOpen()
