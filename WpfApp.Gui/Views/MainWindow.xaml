@@ -11,7 +11,7 @@
                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                  xmlns:pages="clr-namespace:WpfApp.Gui.Views.Pages"
                  xmlns:lex="http://wpflocalizeextension.codeplex.com"
-                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  lex:ResxLocalizationProvider.DefaultAssembly="WpfApp.Gui"
                  lex:ResxLocalizationProvider.DefaultDictionary="Contents"
                  mc:Ignorable="d"
@@ -67,7 +67,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <materialDesign:PackIcon Kind="Cog" Grid.Column="0" VerticalAlignment="Center"/>
+                            <iconPacks:PackIconFontAwesome Kind="CogsSolid" VerticalAlignment="Center"/>
                             <Label Content="{lex:Loc Settings}" VerticalAlignment="Center" Grid.Column="1"/>
                         </Grid>
                     </Button>

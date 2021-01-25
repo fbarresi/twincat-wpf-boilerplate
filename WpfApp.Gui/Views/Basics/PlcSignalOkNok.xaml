@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WpfApp.Gui.Views"
              xmlns:basics="clr-namespace:WpfApp.Gui.Views.Basics"
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:converters="clr-namespace:WpfApp.Gui.Converters"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              DataContext="{Binding PlcVariableViewModel, Source={StaticResource Locator}}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -20,10 +20,13 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <fa:ImageAwesome Grid.Column="0" 
-                             Icon="Circle" 
-                             Width="32" 
-                             Foreground="{Binding RawValue, Converter={StaticResource boolToColour}}"/>
+            <iconPacks:PackIconFontAwesome Grid.Column="0" 
+                                           Kind="CircleSolid" 
+                                           Width="24" 
+                                           Height="24"
+                                           VerticalAlignment="Center"
+                                           VerticalContentAlignment="Center"
+                                           Foreground="{Binding RawValue, Converter={StaticResource boolToColour}}"/>
 
             <Label Grid.Column="1"
                    FontSize="16"

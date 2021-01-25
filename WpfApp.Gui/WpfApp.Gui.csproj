@@ -7,8 +7,7 @@
 
     <ItemGroup>
       <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.2" />
-      <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-      <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.8.0" />
+      <PackageReference Include="MahApps.Metro.IconPacks.FontAwesome" Version="4.8.0" />
       <PackageReference Include="ReactiveUI" Version="12.1.5" />
       <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
         <PackageReference Include="MahApps.Metro" Version="2.4.3" />
