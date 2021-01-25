@@ -2,8 +2,10 @@
 using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using Ninject;
 using ReactiveUI;
 using Serilog;
+using WpfApp.Interfaces.Services;
 using WpfApp.Interfaces.Ui;
 
 namespace WpfApp.Gui.ViewModels
@@ -14,6 +16,9 @@ namespace WpfApp.Gui.ViewModels
         private bool disposed;
         private string title;
 
+        [Inject]
+        public IUserService UserService { get; set; }
+        
         public string Title
         {
             get => title;

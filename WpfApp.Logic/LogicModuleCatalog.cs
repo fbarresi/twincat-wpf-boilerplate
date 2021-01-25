@@ -28,6 +28,8 @@
 
             Bind<IPlcProvider>().To<PlcProvider>().InSingletonScope();
             Bind<BeckhoffPlc>().ToSelf();
+
+            Bind<IUserService>().To<UserService>().InSingletonScope();
         }
     }
 }
