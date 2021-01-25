@@ -3,8 +3,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:local="clr-namespace:WpfApp.Gui"
-                 xmlns:views="clr-namespace:WpfApp.Gui.Views"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mah:DialogParticipation.Register="{Binding}"
                  xmlns:viewModels="clr-namespace:WpfApp.Gui.ViewModels"
@@ -12,7 +10,6 @@
                  xmlns:pages="clr-namespace:WpfApp.Gui.Views.Pages"
                  xmlns:lex="http://wpflocalizeextension.codeplex.com"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                 xmlns:converters="clr-namespace:WpfApp.Gui.Converters"
                  lex:ResxLocalizationProvider.DefaultAssembly="WpfApp.Gui"
                  lex:ResxLocalizationProvider.DefaultDictionary="Contents"
                  mc:Ignorable="d"
@@ -21,10 +18,6 @@
                  Icon="../Resources/icon.png"
                  DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
                  Title="Twincat WPF Boilerplate" Height="650" Width="900">
-    <Window.Resources>
-        <converters:BoolToVisibilityConverter x:Key="VisibleIfTrue" IfTrue="Visible" IfFalse="Collapsed"/>
-        <converters:BoolToVisibilityConverter x:Key="VisibleIfFalse" IfTrue="Collapsed" IfFalse="Visible"/>
-    </Window.Resources>
     
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
@@ -58,6 +51,12 @@
                         CommandParameter="{x:Type viewModels:GraphViewModel}"
                         Style="{StaticResource MaterialDesignFlatButton}">
                         Graph View
+                    </Button>
+                    
+                    <Button
+                        Visibility="{Binding CurrentRoles, Converter={StaticResource VisibleAtLeastForRole}, ConverterParameter=Operator}"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Hidden Button
                     </Button>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Grid.Row="1">

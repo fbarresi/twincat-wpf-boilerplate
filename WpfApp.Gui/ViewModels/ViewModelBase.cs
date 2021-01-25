@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
@@ -6,6 +7,7 @@ using JetBrains.Annotations;
 using Ninject;
 using ReactiveUI;
 using Serilog;
+using WpfApp.Interfaces.Enums;
 using WpfApp.Interfaces.Extensions;
 using WpfApp.Interfaces.Models;
 using WpfApp.Interfaces.Services;
@@ -20,6 +22,7 @@ namespace WpfApp.Gui.ViewModels
         private string title;
         private ObservableAsPropertyHelper<User> currentUserHelper;
         private ObservableAsPropertyHelper<bool> loggedInHelper;
+        private ObservableAsPropertyHelper<List<Role>> rolesInHelper;
 
         [Inject]
         public IUserService UserService { get; set; }
@@ -84,7 +87,12 @@ namespace WpfApp.Gui.ViewModels
 
             loggedInHelper = UserService?.CurrentUser.Select(u => u != null).ToProperty(this, vm => vm.LoggedIn);
             loggedInHelper.AddDisposableTo(Disposables);
+            
+            rolesInHelper = UserService?.CurrentUser.Select(u => u?.Roles ?? new List<Role>()).ToProperty(this, vm => vm.CurrentRoles);
+            rolesInHelper.AddDisposableTo(Disposables);
         }
+
+        public List<Role> CurrentRoles => rolesInHelper.Value;
 
         public bool LoggedIn => loggedInHelper.Value;
 

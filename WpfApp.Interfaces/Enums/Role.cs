@@ -2,10 +2,9 @@
 {
     public enum Role
     {
-        Root,
-        Technician,
-        Service,
-        Operator,
-        
+        Root = 0,
+        Technician = 10,
+        Service = 20,
+        Operator = 30
     }
 }
