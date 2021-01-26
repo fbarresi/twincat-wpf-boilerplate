@@ -16,7 +16,7 @@ namespace WpfApp.Gui.Converters
 
             if (value is List<Role> && parsed)
             {
-                return ((List<Role>) value).Any(r => r < parsedRole) ? Visibility.Visible : Visibility.Collapsed;
+                return ((List<Role>) value).Any(r => r <= parsedRole) ? Visibility.Visible : Visibility.Collapsed;
             }
 
             return Visibility.Collapsed;

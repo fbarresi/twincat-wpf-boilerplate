@@ -21,13 +21,13 @@ namespace WpfApp.Logic.Services
     public class UserService : IUserService, IDisposable, IInitializable
     {
         private const string CollectionName = "Users";
-        private readonly DatabaseService databaseService;
+        private readonly IDatabaseService databaseService;
         private readonly ApplicationSetting setting;
         private readonly ILogger logger;
 
         private readonly BehaviorSubject<User> currentUserSubject = new BehaviorSubject<User>(null);
         private readonly SerialDisposable disposable = new SerialDisposable();
-        public UserService(DatabaseService databaseService, ApplicationSetting setting, ILogger logger)
+        public UserService(IDatabaseService databaseService, ApplicationSetting setting, ILogger logger)
         {
             this.databaseService = databaseService;
             this.setting = setting;

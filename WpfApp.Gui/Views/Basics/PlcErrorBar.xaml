@@ -13,13 +13,21 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Border MinHeight="30" 
             Background="Goldenrod" 
-            Visibility="{Binding HasErrors, Converter={StaticResource VisibleIfTrue}}">
+            Visibility="{Binding HasErrors, Converter={StaticResource VisibleIfTrue}}"
+            >
         
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/> 
                 <ColumnDefinition Width="Auto"/> 
             </Grid.ColumnDefinitions>
+            
+            <!-- error message -->
+            <Grid>
+                
+            </Grid>
+            
+            <!-- Open details button -->
             <Button Grid.Column="1"
                     Style="{StaticResource MaterialDesignFlatButton}"
                     Command="{Binding Path=DataContext.SwitchToViewModel, RelativeSource={RelativeSource AncestorType=mah:MetroWindow}}"
