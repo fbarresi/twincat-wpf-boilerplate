@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
  using Ninject;
  using Ninject.Modules;
  using Serilog;
@@ -30,6 +30,7 @@
             Bind<BeckhoffPlc>().ToSelf();
 
             Bind<IUserService>().To<UserService>().InSingletonScope();
+            Bind<IPlcErrorService>().To<PlcErrorService>().InSingletonScope();
         }
     }
 }

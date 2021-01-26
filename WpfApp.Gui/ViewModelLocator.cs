@@ -44,7 +44,6 @@ namespace WpfApp.Gui
         public T Create<T>()
         {
             var newObject = Kernel.Get<T>();
-            InitializeInitialziable(newObject as IInitializable);
             return newObject;
         }
 

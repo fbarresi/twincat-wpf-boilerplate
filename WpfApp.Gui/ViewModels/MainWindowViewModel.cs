@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using ReactiveUI;
 using TwinCAT;
+using WpfApp.Gui.ViewModels.Basics;
 using WpfApp.Interfaces.Commons;
 using WpfApp.Interfaces.Exceptions;
 using WpfApp.Interfaces.Extensions;
@@ -22,6 +23,7 @@ namespace WpfApp.Gui.ViewModels
         private readonly IPlcProvider provider;
         private readonly IPresentationService presentationService;
         private readonly SettingRoot settingRoot;
+        private readonly IViewModelFactory viewModelFactory;
         private bool sideMenuOpen;
         private ObservableAsPropertyHelper<ConnectionState> helper;
         private ViewModelBase activeViewModel;
@@ -59,12 +61,17 @@ namespace WpfApp.Gui.ViewModels
 
         public ConnectionState ConnectionState => helper?.Value ?? ConnectionState.None;
 
-        public MainWindowViewModel(IDialogCoordinator dialogCoordinator, IPresentationService presentationService, IPlcProvider provider, SettingRoot settingRoot)
+        public MainWindowViewModel(IDialogCoordinator dialogCoordinator, 
+            IPresentationService presentationService, 
+            IPlcProvider provider, 
+            SettingRoot settingRoot, 
+            IViewModelFactory viewModelFactory)
         {
             this.dialogCoordinator = dialogCoordinator;
             this.presentationService = presentationService;
             this.provider = provider;
             this.settingRoot = settingRoot;
+            this.viewModelFactory = viewModelFactory;
         }
         protected override void Initialize()
         {
@@ -99,6 +106,9 @@ namespace WpfApp.Gui.ViewModels
                 .AddDisposableTo(Disposables);
             Logout = ReactiveCommand.CreateFromTask(ExecuteLogout)
                 .AddDisposableTo(Disposables);
+
+            PlcErrorBarViewModel = viewModelFactory.CreateViewModel<PlcErrorBarViewModel>();
+            PlcErrorBarViewModel.AddDisposableTo(Disposables);
         }
 
         private Task<Unit> ExecuteLogout()
@@ -189,5 +199,6 @@ namespace WpfApp.Gui.ViewModels
             }
         }
 
+        public PlcErrorBarViewModel PlcErrorBarViewModel { get; set; }
     }
 }

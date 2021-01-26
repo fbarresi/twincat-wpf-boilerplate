@@ -10,6 +10,8 @@
                  xmlns:pages="clr-namespace:WpfApp.Gui.Views.Pages"
                  xmlns:lex="http://wpflocalizeextension.codeplex.com"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:basics="clr-namespace:WpfApp.Gui.Views.Basics"
+                 xmlns:basicsVMs="clr-namespace:WpfApp.Gui.ViewModels.Basics"
                  lex:ResxLocalizationProvider.DefaultAssembly="WpfApp.Gui"
                  lex:ResxLocalizationProvider.DefaultDictionary="Contents"
                  mc:Ignorable="d"
@@ -126,6 +128,8 @@
                         Foreground="White"
                         VerticalContentAlignment="Center"
                         Content="{Binding ConnectionState}" ContentStringFormat="PLC State: {0}"/>
+                
+                <!-- menu panel -->
                 <materialDesign:PopupBox
                     Grid.Column="3"
                     Foreground="White"
@@ -143,11 +147,7 @@
         </Border>
         
         <!-- error bar -->
-        <Border Grid.Row="1">
-            <Grid>
-                <!-- todo -->
-            </Grid>
-        </Border>
+        <basics:PlcErrorBar Grid.Row="1" DataContext="{Binding PlcErrorBarViewModel}"/>
         
         <!-- content -->
         <ContentPresenter Grid.Row="2"
@@ -163,12 +163,15 @@
                 <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
                     <pages:SettingsView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type basicsVMs:PlcErrorDetailsViewModel}">
+                    <basics:PlcErrorDetails />
+                </DataTemplate>
             </ContentPresenter.Resources>
         </ContentPresenter>
         
         <!-- Bottom bar -->
         <Grid Grid.Row="3">
-            
+            <!-- leer -->
         </Grid>
         
     </Grid>
