@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -24,6 +25,8 @@ namespace WpfApp.Logic.Hardware
         private readonly BehaviorSubject<AdsState> adsStateSubject = new BehaviorSubject<AdsState>(TwinCAT.Ads.AdsState.Init);
         public IObservable<AdsState> AdsState => adsStateSubject.AsObservable();
         public readonly CompositeDisposable Disposables = new CompositeDisposable();
+
+        private readonly Dictionary<string, IObservable<object>> notificationCache = new Dictionary<string, IObservable<object>>();
         
         [Inject]
         public ILogger Logger { get; set; }
@@ -130,7 +133,20 @@ namespace WpfApp.Logic.Hardware
 
         public IObservable<ConnectionState> ConnectionState => connectionStateSubject.AsObservable();
 
-        public IObservable<object> CreateNotification(string variable)
+        private IObservable<object> GetOrCreateNotification(string variable)
+        {
+            if (notificationCache.ContainsKey(variable))
+            {
+                return notificationCache[variable];
+            }
+            notificationCache.Add(variable, GetNotification(variable));
+            return notificationCache[variable];
+        }
+
+        public IObservable<object> CreateNotification(string variable) => GetOrCreateNotification(variable);
+        
+        
+        private IObservable<object> GetNotification(string variable)
         {
             return connectionStateSubject
                     .DistinctUntilChanged()
@@ -155,23 +171,14 @@ namespace WpfApp.Logic.Hardware
                 ;
         }
 
-        public IObservable<T> CreateNotification<T>(string variable)
-        {
-            return connectionStateSubject
-                    .DistinctUntilChanged()
-                    .Where(connectionStates => connectionStates == TwinCAT.ConnectionState.Connected)
-                    .Select(_ => ObserveVariable<T>(variable))
-                    .Switch()
-                    .Retry()
-                ;
-        }
+        public IObservable<T> CreateNotification<T>(string variable) => ObserveVariable<T>(variable);
 
         private IObservable<T> ObserveVariable<T>(string variable)
         {
             Logger?.Debug(
                 $"Creating typed beckhoff notification for '{variable}' of type {typeof(T)}");
             
-            return ObserveRawVariable(variable)
+            return GetOrCreateNotification(variable)
                     .Select(obj => obj.ConvertTo<T>())
                 ;
         }
