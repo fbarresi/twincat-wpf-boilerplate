@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -26,7 +27,7 @@ namespace WpfApp.Logic.Hardware
         public IObservable<AdsState> AdsState => adsStateSubject.AsObservable();
         public readonly CompositeDisposable Disposables = new CompositeDisposable();
 
-        private readonly Dictionary<string, IObservable<object>> notificationCache = new Dictionary<string, IObservable<object>>();
+        private readonly ConcurrentDictionary<string, IObservable<object>> notificationCache = new ConcurrentDictionary<string, IObservable<object>>();
         
         [Inject]
         public ILogger Logger { get; set; }
@@ -139,8 +140,11 @@ namespace WpfApp.Logic.Hardware
             {
                 return notificationCache[variable];
             }
-            notificationCache.Add(variable, GetNotification(variable));
-            return notificationCache[variable];
+            var done = notificationCache.TryAdd(variable, GetNotification(variable));
+            if(done)
+                return notificationCache[variable];
+            
+            return GetOrCreateNotification(variable);
         }
 
         public IObservable<object> CreateNotification(string variable) => GetOrCreateNotification(variable);
