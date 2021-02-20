@@ -15,9 +15,9 @@ namespace WpfApp.Logic.Services
     public class DatabaseService : IInitializable, IDatabaseService, IDisposable
     {
         private LiteDatabase db;
-        private DirectoryService directoryService;
+        private IDirectoryService directoryService;
 
-        public DatabaseService(DirectoryService directoryService)
+        public DatabaseService(IDirectoryService directoryService)
         {
             this.directoryService = directoryService;
         }
