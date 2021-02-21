@@ -163,16 +163,24 @@ namespace WpfApp.Logic.Hardware
 
         private IObservable<object> ObserveRawVariable(string variable)
         {
-            var symbol = Client.ReadSymbol(variable);
+            try
+            {
+                var symbol = Client.ReadSymbol(variable);
 
-            Logger?.Debug(
-                $"Creating beckhoff notification for raw '{variable}' of type {symbol.DataType.Name}");
+                Logger?.Debug(
+                    $"Creating beckhoff notification for raw '{variable}' of type {symbol.DataType.Name}");
 
-            IObservable<object> observable = ((IValueSymbol) symbol).WhenValueChanged();
+                IObservable<object> observable = ((IValueSymbol) symbol).WhenValueChanged();
 
-            return observable 
-                    .Select(obj =>obj.TryConvertToDotNetManagedType())
-                ;
+                return observable 
+                        .Select(obj =>obj.TryConvertToDotNetManagedType())
+                    ;
+            }
+            catch(Exception e)
+            {
+                Logger?.Error(e, "Unable to create notification for variable '{variable}'");
+                return Observable.Empty<object>();
+            }
         }
 
         public IObservable<T> CreateNotification<T>(string variable) => ObserveVariable<T>(variable);
