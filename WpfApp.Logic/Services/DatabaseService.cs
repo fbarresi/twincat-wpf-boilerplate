@@ -35,6 +35,23 @@ namespace WpfApp.Logic.Services
             var found = collection.Find(filter, skip, limit>1 ? limit : int.MaxValue);
             return found;
         }
+        
+        public IEnumerable<T> GetCollection<T,K>(string name, Expression<Func<T, bool>> filter, Expression<Func<T, K>> orderBy, bool orderByDescending, int skip = 0, int limit = -1) where T : new()
+        {
+            var collection = GetDbCollection<T>(name);
+            var query = collection.Query()
+                .Where(filter);
+                
+            if(orderByDescending)
+                query = query.OrderByDescending(orderBy);
+            else 
+                query = query.OrderBy(orderBy);
+            
+            var found = query
+                .Skip(skip)
+                .Limit(limit).ToEnumerable();
+            return found;
+        }
 
         public int CountElementInCollection<T>(string name) where T : new() => GetDbCollection<T>(name).Count();
 

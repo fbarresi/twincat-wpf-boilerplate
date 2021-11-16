@@ -12,5 +12,6 @@ namespace WpfApp.Interfaces.Services
         bool RemoveFromCollection<T>(string name, T obj) where T : new();
         void IndexCollection<T>(string name, Expression<Func<T, string>> index) where T : new();
         int CountElementInCollection<T>(string name) where T : new();
+        IEnumerable<T> GetCollection<T,K>(string name, Expression<Func<T, bool>> filter, Expression<Func<T, K>> orderBy, bool orderByDescending, int skip = 0, int limit = -1) where T : new();
     }
 }

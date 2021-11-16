@@ -1,4 +1,6 @@
-﻿using WpfApp.Interfaces.Models;
+﻿using System;
+using System.Linq;
+using WpfApp.Interfaces.Models;
 using WpfApp.Interfaces.Services;
 
 namespace WpfApp.Logic.Services
@@ -15,6 +17,17 @@ namespace WpfApp.Logic.Services
         public void LogEvent(PlcEvent plcEvent)
         {
             databaseService.InsertIntoCollection(CollectionName, plcEvent);
+        }
+
+        public PlcEvent[] GetHistory(int elements, int page)
+        {
+            return databaseService.GetCollection<PlcEvent, DateTime>(CollectionName, 
+                _ => true, 
+                e => e.Timestamp, 
+                true,
+                page * elements, 
+                elements)
+                .ToArray();
         }
     }
 }
