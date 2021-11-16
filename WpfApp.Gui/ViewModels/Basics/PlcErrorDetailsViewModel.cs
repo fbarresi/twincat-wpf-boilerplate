@@ -5,11 +5,9 @@ namespace WpfApp.Gui.ViewModels.Basics
 {
     public class PlcErrorDetailsViewModel : ViewModelBase
     {
-        private readonly IPlcErrorService plcErrorService;
 
-        public PlcErrorDetailsViewModel(IPlcErrorService plcErrorService)
+        public PlcErrorDetailsViewModel()
         {
-            this.plcErrorService = plcErrorService;
         }
         protected override void Initialize()
         {
@@ -19,7 +17,7 @@ namespace WpfApp.Gui.ViewModels.Basics
 
     internal class DesignPlcErrorDetailsViewModel : PlcErrorDetailsViewModel
     {
-        public DesignPlcErrorDetailsViewModel() : base(new DesignPlcErrorService())
+        public DesignPlcErrorDetailsViewModel() : base()
         {
             Init();
         }

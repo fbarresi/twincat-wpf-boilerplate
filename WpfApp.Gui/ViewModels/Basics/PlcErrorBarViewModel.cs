@@ -9,12 +9,10 @@ namespace WpfApp.Gui.ViewModels.Basics
 {
     public class PlcErrorBarViewModel : ViewModelBase
     {
-        private readonly IPlcErrorService plcErrorService;
         private bool hasErrors;
 
-        public PlcErrorBarViewModel(IPlcErrorService plcErrorService)
+        public PlcErrorBarViewModel()
         {
-            this.plcErrorService = plcErrorService;
         }
         protected override void Initialize()
         {
@@ -41,7 +39,7 @@ namespace WpfApp.Gui.ViewModels.Basics
 
     internal class DesignPlcErrorBarViewModel : PlcErrorBarViewModel
     {
-        public DesignPlcErrorBarViewModel() : base(new DesignPlcErrorService())
+        public DesignPlcErrorBarViewModel() : base()
         {
             Init();
         }

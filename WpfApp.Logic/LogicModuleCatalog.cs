@@ -25,12 +25,16 @@
 
             Bind<HardwareSetting>().ToMethod(context =>
                 context.Kernel.Get<ISettingsProvider>().SettingRoot.HardwareSetting);
+            
+            Bind<ErrorSetting>().ToMethod(context =>
+                context.Kernel.Get<ISettingsProvider>().SettingRoot.ErrorSetting);
 
             Bind<IPlcProvider>().To<PlcProvider>().InSingletonScope();
             Bind<BeckhoffPlc>().ToSelf();
 
             Bind<IUserService>().To<UserService>().InSingletonScope();
-            Bind<IPlcErrorService>().To<PlcErrorService>().InSingletonScope();
+            Bind<IPlcEventLogService>().To<PlcEventLogService>().InSingletonScope();
+            Bind<IPlcEventService>().To<PlcEventService>().InSingletonScope();
         }
     }
 }
