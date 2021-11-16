@@ -2,27 +2,42 @@
 using System.Reactive.Linq;
 using WpfApp.Gui.Design;
 using WpfApp.Interfaces.Extensions;
+using WpfApp.Interfaces.Models;
 using WpfApp.Interfaces.Services;
-using WpfApp.Interfaces.Settings;
 
 namespace WpfApp.Gui.ViewModels.Basics
 {
     public class PlcErrorBarViewModel : ViewModelBase
     {
+        private readonly IPlcEventService eventService;
         private bool hasErrors;
+        private PlcEvent error;
 
-        public PlcErrorBarViewModel()
+        public PlcErrorBarViewModel(IPlcEventService eventService)
         {
+            this.eventService = eventService;
         }
         protected override void Initialize()
         {
-            Observable.Interval(TimeSpan.FromSeconds(1))
-                .Select(l => l % 2 == 0)
+            eventService.LatestEvent
                 .ObserveOnDispatcher()
-                .Do(b => HasErrors = b)
+                .Do(b => HasErrors = (b == null))
+                .Where(e => e != null)
+                .Do(e => Error = e)
                 .Subscribe()
                 .AddDisposableTo(Disposables);
             
+        }
+
+        public PlcEvent Error
+        {
+            get => error;
+            set
+            {
+                if (Equals(value, error)) return;
+                error = value;
+                raisePropertyChanged();
+            }
         }
 
         public bool HasErrors
@@ -39,7 +54,7 @@ namespace WpfApp.Gui.ViewModels.Basics
 
     internal class DesignPlcErrorBarViewModel : PlcErrorBarViewModel
     {
-        public DesignPlcErrorBarViewModel() : base()
+        public DesignPlcErrorBarViewModel() : base(new DesignPlcEventService())
         {
             Init();
         }
