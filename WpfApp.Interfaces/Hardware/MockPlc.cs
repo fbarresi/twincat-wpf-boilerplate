@@ -23,6 +23,10 @@ namespace WpfApp.Interfaces.Hardware
                 ;
         }
 
+        public IObservable<T> CreateNotification<T>(string variable, TimeSpan cycle) 
+            => CreateNotification<T>(variable).CombineLatest(Observable.Timer(cycle), (v, _) => v);
+
+
         public Task<T> Read<T>(string variable)
         {
             return Task.FromResult(default(T));

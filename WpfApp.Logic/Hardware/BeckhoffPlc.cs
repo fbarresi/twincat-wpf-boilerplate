@@ -184,6 +184,8 @@ namespace WpfApp.Logic.Hardware
         }
 
         public IObservable<T> CreateNotification<T>(string variable) => ObserveVariable<T>(variable);
+        public IObservable<T> CreateNotification<T>(string variable, TimeSpan cycle) 
+            => CreateNotification<T>(variable).CombineLatest(Observable.Timer(cycle), (v, _) => v);
 
         private IObservable<T> ObserveVariable<T>(string variable)
         {
