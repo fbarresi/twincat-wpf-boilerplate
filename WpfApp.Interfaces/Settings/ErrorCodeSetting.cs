@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WpfApp.Interfaces.Enums;
 
 namespace WpfApp.Interfaces.Settings
 {
@@ -9,5 +10,6 @@ namespace WpfApp.Interfaces.Settings
         public List<ErrorCodeDescription> CodeDescriptions { get; set; }
         public bool IgnoreNotDescribedValues { get; set; }
         public object NoErrorValue { get; set; }
+        public Severity DefaultSeverity { get; set; } = Severity.Warning;
     }
 }

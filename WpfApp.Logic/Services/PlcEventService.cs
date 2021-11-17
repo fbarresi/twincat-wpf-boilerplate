@@ -110,7 +110,7 @@ namespace WpfApp.Logic.Services
             else if (ignored)
                 plcEvent.Severity = Severity.Ignored;
             else
-                plcEvent.Severity = errorCodeDescription?.Severity ?? Severity.Info;
+                plcEvent.Severity = errorCodeDescription?.Severity ?? errorCodeSetting.DefaultSeverity;
 
             plcEventLogService.LogEvent(plcEvent);
             return plcEvent;
