@@ -44,6 +44,16 @@ namespace WpfApp.Logic.Services
             {
                 var plc = string.IsNullOrEmpty(codeSetting.PlcName) ? plcProvider.GetHardware() : plcProvider.GetHardware(codeSetting.PlcName);
                 plc.CreateNotification(codeSetting.ErrorCodeAddress)
+                    .FirstAsync()
+                    .Where(value => value != null)
+                    .Select(value => CreateEvent(value, codeSetting))
+                    .Do(SetActualEvent)
+                    .Subscribe()
+                    .AddDisposableTo(disposables)
+                    ;
+                
+                plc.CreateNotification(codeSetting.ErrorCodeAddress)
+                    .Skip(1)
                     .DistinctUntilChanged()
                     .Where(value => value != null)
                     .Do(value => HandleNewErrorCode(value, codeSetting))
@@ -60,13 +70,19 @@ namespace WpfApp.Logic.Services
         {
             var eventInfo = CreateAndLogEvent(value, errorCodeSetting);
 
+            SetActualEvent(eventInfo);
+        }
+
+        private void SetActualEvent(PlcEvent eventInfo)
+        {
             if (eventInfo.Severity == Severity.Ignored)
                 return;
-            
+
             if (eventInfo.Severity == Severity.NoError) // remove error from active and last error
             {
-                if(lastEventSubject.Value.Source.Equals(eventInfo.Source)) 
-                    lastEventSubject.OnNext(null);
+                if (lastEventSubject.Value != null)
+                    if (lastEventSubject.Value.Source.Equals(eventInfo.Source))
+                        lastEventSubject.OnNext(null);
                 if (activeEventSubject.Value.Any(e => e.Source.Equals(eventInfo.Source)))
                 {
                     var activeEvents = activeEventSubject.Value
@@ -88,6 +104,13 @@ namespace WpfApp.Logic.Services
         }
 
         private PlcEvent CreateAndLogEvent([NotNull]object value, ErrorCodeSetting errorCodeSetting)
+        {
+            var plcEvent = CreateEvent(value, errorCodeSetting);
+            plcEventLogService.LogEvent(plcEvent);
+            return plcEvent;
+        }
+
+        private PlcEvent CreateEvent([NotNull]object value, ErrorCodeSetting errorCodeSetting)
         {
             var isNotError = value.ToString().Equals(errorCodeSetting.NoErrorValue.ToString());
 
@@ -112,10 +135,9 @@ namespace WpfApp.Logic.Services
             else
                 plcEvent.Severity = errorCodeDescription?.Severity ?? errorCodeSetting.DefaultSeverity;
 
-            plcEventLogService.LogEvent(plcEvent);
             return plcEvent;
         }
-
+        
         public void Dispose()
         {
             disposables?.Dispose();
